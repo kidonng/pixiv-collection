@@ -17,12 +17,6 @@
             class="pswp__button pswp__button--close"
             title="Close (Esc)"
           ></button>
-          <a target="_blank" rel="noreferrer noopener">
-            <button
-              class="pswp__button pswp__button--view-on-pixiv"
-              title="View on pixiv"
-            ></button>
-          </a>
           <button
             class="pswp__button pswp__button--fs"
             title="Fullscreen"
@@ -61,7 +55,4 @@
 
 .pswp__top-bar
   background: none
-
-.pswp__button--view-on-pixiv
-  background-position: -44px -44px
 </style>
