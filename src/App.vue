@@ -1,31 +1,22 @@
 <template lang="pug">
 v-app
   v-app-bar(app dark)
-    v-toolbar-title kidonng's pixiv Collection
+    v-toolbar-title {{ title }}
     v-spacer
-    v-tooltip(bottom)
+    v-tooltip(v-for="(link, index) in links" :key="index" bottom)
       template(#activator="{ on }"): v-btn(
         v-on="on"
-        href="https://kidonng.me/"
+        :href="link.href"
         target="_blank"
         rel="noreferrer noopener"
         icon
-      ): v-icon mdi-home
-      span Visit my homepage
-    v-tooltip(bottom)
-      template(#activator="{ on }"): v-btn(
-        v-on="on"
-        href="https://github.com/kidonng/pixiv-collection"
-        target="_blank"
-        rel="noreferrer noopener"
-        icon
-      ): v-icon mdi-code-tags
-      span View on GitHub
+      ): v-icon {{ link.icon }}
+      span {{ link.title }}
 
   v-content: v-container
     v-snackbar(:value="!collection.length") Loading...
 
-    v-expansion-panels: v-expansion-panel(v-for="(member, memberIndex) in collection" :key="member.id")
+    v-expansion-panels.hotfix: v-expansion-panel(v-for="(member, memberIndex) in collection" :key="member.id")
       v-expansion-panel-header
         div: a(
           :href="`https://www.pixiv.net/member.php?id=${member.id}`"
@@ -51,7 +42,7 @@ v-app
 </template>
 
 <script>
-import collection from '../assets/collection'
+import config from '../config'
 import LazyImage from './components/LazyImage'
 import PhotoSwipe from './components/PhotoSwipe'
 import ky from 'ky'
@@ -64,10 +55,12 @@ export default {
     PhotoSwipe
   },
   data: () => ({
+    title: config.title,
+    links: config.links,
     collection: []
   }),
   mounted() {
-    collection.forEach(async (member, memberIndex) => {
+    config.collection.forEach(async (member, memberIndex) => {
       this.collection.push(
         Object.assign(await this.api(member.id, 'member'), { illust: [] })
       )
@@ -140,3 +133,9 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+// Hotfix for https://github.com/vuetifyjs/vuetify/issues/7524
+.hotfix .v-expansion-panel
+  flex: 1 0 100%
+</style>
