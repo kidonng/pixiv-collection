@@ -55,13 +55,13 @@
   </div>
 </template>
 
-<style lang="stylus">
-@import '~photoswipe/dist/photoswipe.css';
-@import '~photoswipe/dist/default-skin/default-skin.css';
+<style lang="sass">
+@import '~photoswipe/dist/photoswipe.css'
+@import '~photoswipe/dist/default-skin/default-skin.css'
 
 .pswp__top-bar
-  background none
+  background: none
 
 .pswp__button--view-on-pixiv
-  background-position -44px -44px
+  background-position: -44px -44px
 </style>

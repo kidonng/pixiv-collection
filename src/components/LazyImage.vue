@@ -8,9 +8,8 @@
     max-height="250"
     max-width="250"
     ref="img"
-  ): template(#placeholder)
-    v-layout(fill-height align-center justify-center ma-0)
-      v-progress-circular(indeterminate color="grey lighten-5")
+  ): template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
+    v-progress-circular(indeterminate color="grey lighten-5")
   v-avatar(v-else-if="type === 'avatar'"): img(:src="src" :alt="alt" ref="img")
 </template>
 
@@ -47,8 +46,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .illust
-  cursor pointer
-  border-radius 4px
+  cursor: pointer
+  border-radius: 4px
 </style>

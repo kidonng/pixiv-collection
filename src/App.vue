@@ -1,52 +1,50 @@
 <template lang="pug">
 v-app
-  v-toolbar(app color="info" dark)
+  v-app-bar(app dark)
     v-toolbar-title kidonng's pixiv Collection
     v-spacer
-    v-toolbar-items
-      v-tooltip(bottom)
-        template(#activator="{ on }"): v-btn(
-          v-on="on"
-          href="https://kidonng.me/"
-          target="_blank"
-          rel="noreferrer noopener"
-          icon
-        ): v-icon home
-        span Visit my homepage
-      v-tooltip(bottom)
-        template(#activator="{ on }"): v-btn(
-          v-on="on"
-          href="https://github.com/kidonng/pixiv-collection"
-          target="_blank"
-          rel="noreferrer noopener"
-          icon
-        ): v-icon code
-        span View on GitHub
+    v-tooltip(bottom)
+      template(#activator="{ on }"): v-btn(
+        v-on="on"
+        href="https://kidonng.me/"
+        target="_blank"
+        rel="noreferrer noopener"
+        icon
+      ): v-icon mdi-home
+      span Visit my homepage
+    v-tooltip(bottom)
+      template(#activator="{ on }"): v-btn(
+        v-on="on"
+        href="https://github.com/kidonng/pixiv-collection"
+        target="_blank"
+        rel="noreferrer noopener"
+        icon
+      ): v-icon mdi-code-tags
+      span View on GitHub
 
-  v-content: v-container(fluid)
+  v-content: v-container
     v-snackbar(:value="!collection.length") Loading...
 
-    v-expansion-panel: v-expansion-panel-content(v-for="(member, memberIndex) in collection" :key="member.id")
-      template(#header): .title
-        a(
+    v-expansion-panels: v-expansion-panel(v-for="(member, memberIndex) in collection" :key="member.id")
+      v-expansion-panel-header
+        div: a(
           :href="`https://www.pixiv.net/member.php?id=${member.id}`"
           title="View pixiv profile"
           target="_blank"
           rel="noreferrer noopener"
-        ): LazyImage.mr-4(
+        ): LazyImage(
           type="avatar"
           :lazySrc="member.profile_image_urls.px_50x50"
           alt="Avatar"
         )
-        span {{ member.name }}
+        .title {{ member.name }}
 
-      v-card: v-container(fluid grid-list-xl): v-layout(wrap)
-        v-flex(
+      v-expansion-panel-content: v-container(grid-list-xl): v-layout(wrap): v-flex(
           v-for="(illust, illustIndex) in member.illust"
           :key="illust.id"
           xs6 sm4 lg2
-        ): div(@click="zoom(memberIndex, illustIndex)")
-          LazyImage(:lazySrc="illust.image_urls.thumb" :alt="illust.title")
+        )
+          div(@click="zoom(memberIndex, illustIndex)"): LazyImage(:lazySrc="illust.image_urls.thumb" :alt="illust.title")
           .mt-1.font-weight-bold(:title="`${illust.caption} (${illust.created_time.substring(0, 16)})`") {{ illust.title }}
 
     PhotoSwipe(ref="pswp")
