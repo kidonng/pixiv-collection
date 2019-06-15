@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "now-build": "yarn build"
   },
   "dependencies": {
     "ky": "^0.11.1",
