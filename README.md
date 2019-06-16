@@ -14,5 +14,5 @@ Dead simple pixiv collection showcase. Built with Vuetify 2.x and Photoswipe.
 
 pixiv Collection is made possible by:
 
-- [pixiv API](https://zhuanlan.zhihu.com/p/35243511)
+- [pixiv API](https://api.imjad.cn/pixiv.md)
 - [pixiv proxy](https://pixiv.cat/reverseproxy.html)

@@ -5,7 +5,7 @@ v-app
   v-content: v-container
     v-expansion-panels: v-expansion-panel(v-for="member in members" :key="member.id")
       v-expansion-panel-header
-        div: LazyImage(v-if="member.profile_image_urls" type="avatar" :lazySrc="member.profile_image_urls.px_50x50" alt="Avatar")
+        div: LazyImage(v-if="member.profile_image_urls" type="avatar" :lazySrc="image(member.profile_image_urls.px_170x170).profile_small" alt="Avatar")
         .title {{ member.name }}
 
       v-expansion-panel-content: v-container(grid-list-xl): v-layout(wrap): v-flex(
@@ -13,8 +13,13 @@ v-app
           :key="illust.id"
           xs6 sm4 lg2
         )
-          div(@click="photoswipe(member, illust.id, $refs.pswp.$el)"): LazyImage(
-            :lazySrc="illust.image_urls.thumb"
+          div(@click="photoswipe(illust, $refs.pswp.$el)"): LazyImage(
+            :lazySrc=`
+              image(illust.metadata
+                ? illust.metadata.pages[0].image_urls.large
+                : illust.image_urls.large
+              ).small_2
+            `
             :alt="illust.title"
           )
 
@@ -25,7 +30,7 @@ v-app
             ) {{ illust.title }}
             span View details
 
-    v-snackbar(:value="!loaded") Loading...
+    v-snackbar(v-model="loading") Loading...
     Dialog(:dialog="dialog")
     PhotoSwipe(ref="pswp")
 </template>
@@ -36,6 +41,7 @@ import AppBar from './components/AppBar'
 import Dialog from './components/Dialog'
 import LazyImage from './components/LazyImage'
 import PhotoSwipe from './components/PhotoSwipe'
+import image from './utils/image'
 import photoswipe from './utils/photoswipe'
 import ky from 'ky'
 
@@ -49,7 +55,7 @@ export default {
   data: () => ({
     config,
     members: [],
-    loaded: false,
+    loading: true,
     dialog: {
       show: false,
       illust: null
@@ -57,9 +63,31 @@ export default {
   }),
   mounted() {
     config.collection.forEach(async illust => {
-      const res = await this.api(illust)
-      let member = this.members.find(member => member.id === res.user.id)
+      // Covert
+      if (typeof illust === 'number') illust = [illust]
+      else if (typeof illust === 'string')
+        illust = [new URL(illust).searchParams.get('illust_id')]
 
+      // Process
+      let res = await this.api(illust[0])
+      if (res.metadata) {
+        if (illust[1])
+          res.metadata.pages = res.metadata.pages.filter((undefined, index) =>
+            illust[1].includes(index)
+          )
+
+        res.metadata.pages.forEach(async page => {
+          const img = await ky('/api', {
+            searchParams: { url: image(page.image_urls.large).original }
+          }).json()
+
+          page.height = img.height
+          page.width = img.width
+        })
+      }
+
+      // Store
+      let member = this.members.find(member => member.id === res.user.id)
       if (member) member.illusts.push(res)
       else {
         member = {
@@ -68,47 +96,38 @@ export default {
         }
         this.members.push(member)
 
-        member = Object.assign(member, await this.api(member.id, 'member'))
+        Object.assign(member, await this.api(member.id, 'member'))
       }
 
-      // location.hash === '#&gid=?&pid=?'
-      if (
-        location.hash &&
-        illust ===
-          parseInt(
-            location.hash
-              .substring(2)
-              .split('&')[1]
-              .split('=')[1]
-          )
-      )
-        this.photoswipe(member, illust, this.$refs.pswp.$el)
+      // Resume
+      // location.hash === '#&gid=[illust_id]&pid=[illust_index]'
+      if (location.hash) {
+        const gid = parseInt(
+          location.hash
+            .substring(2)
+            .split('&')[0]
+            .split('=')[1]
+        )
+        const pid = parseInt(
+          location.hash
+            .substring(2)
+            .split('&')[1]
+            .split('=')[1]
+        )
 
-      if (illust === config.collection.slice(-1)[0]) this.loaded = true
+        if (illust[0] === gid) this.photoswipe(res, this.$refs.pswp.$el, pid)
+      }
+
+      // Done
+      if (illust[0] === config.collection.slice(-1)[0]) this.loading = false
     })
   },
   methods: {
-    replace(urls) {
-      Object.keys(urls).forEach(
-        url => (urls[url] = urls[url].replace('i.pximg.net', 'i.pixiv.cat'))
-      )
-    },
-    async api(id, type = 'illust') {
-      const res = (await ky('https://api.imjad.cn/pixiv/v1/', {
-        searchParams: { type, id }
-      }).json()).response[0]
-
-      if (type === 'illust') {
-        this.replace(res.image_urls)
-        // Thumbnail used on pixiv user profile
-        res.image_urls.thumb = res.image_urls.px_128x128.replace(
-          '128x128',
-          '250x250_80_a2'
-        )
-      } else if (type === 'member') this.replace(res.profile_image_urls)
-
-      return res
-    },
+    api: async (id, type = 'illust') =>
+      (await ky('https://api.imjad.cn/pixiv/v1/', {
+        searchParams: { id, type }
+      }).json()).response[0],
+    image,
     photoswipe
   }
 }
