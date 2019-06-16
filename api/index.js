@@ -6,7 +6,9 @@ module.exports = async (req, res) => {
   res.end(
     JSON.stringify(
       await require('probe-image-size')(
-        new URLSearchParams(req.url.substring(2)).get('url')
+        require('querystring').parse(
+          req.url.substring(req.url.indexOf('?') + 1)
+        )
       )
     )
   )
