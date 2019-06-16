@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "builds": [{ "src": "package.json", "use": "@now/static-build" }],
-  "routes": [
-    { "src": "^/js/(.*)", "dest": "/js/$1" },
-    { "src": "^/css/(.*)", "dest": "/css/$1" },
-    { "src": "^/img/(.*)", "dest": "/img/$1" },
-    { "src": "^/fonts/(.*)", "dest": "/fonts/$1" },
-    { "src": ".*", "dest": "/" }
+  "builds": [
+    { "src": "package.json", "use": "@now/static-build" },
+    { "src": "api/index.js", "use": "@now/node" }
   ],
   "alias": "pixiv.now.sh"
 }
