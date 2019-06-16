@@ -3,17 +3,17 @@ v-app
   AppBar
 
   v-content: v-container
-    v-expansion-panels: v-expansion-panel(v-for="(member, memberIndex) in collection" :key="member.id")
+    v-expansion-panels: v-expansion-panel(v-for="member in members" :key="member.id")
       v-expansion-panel-header
-        div: LazyImage(type="avatar" :lazySrc="member.profile_image_urls.px_50x50" alt="Avatar")
+        div: LazyImage(v-if="member.profile_image_urls" type="avatar" :lazySrc="member.profile_image_urls.px_50x50" alt="Avatar")
         .title {{ member.name }}
 
       v-expansion-panel-content: v-container(grid-list-xl): v-layout(wrap): v-flex(
-          v-for="(illust, illustIndex) in member.illust"
+          v-for="illust in member.illusts"
           :key="illust.id"
           xs6 sm4 lg2
         )
-          div(@click="photoswipe(memberIndex, illustIndex, collection, $refs.pswp.$el)"): LazyImage(
+          div(@click="photoswipe(member, illust.id, $refs.pswp.$el)"): LazyImage(
             :lazySrc="illust.image_urls.thumb"
             :alt="illust.title"
           )
@@ -48,46 +48,43 @@ export default {
   },
   data: () => ({
     config,
-    collection: [],
+    members: [],
     loaded: false,
     dialog: {
-      illust: {}
+      show: false,
+      illust: null
     }
   }),
   mounted() {
-    config.collection.forEach(async (member, memberIndex) => {
-      this.collection.push(
-        Object.assign(await this.api(member.id, 'member'), { illust: [] })
-      )
-      member.illust.forEach(async (illust, illustIndex) => {
-        this.collection[memberIndex].illust.push(await this.api(illust))
+    config.collection.forEach(async illust => {
+      const res = await this.api(illust)
+      let member = this.members.find(member => member.id === res.user.id)
 
-        if (location.hash) {
-          // location.hash === '#&gid=?&pid=?'
-          const gid = location.hash
-            .substring(2)
-            .split('&')[0]
-            .split('=')[1]
-          const pid = location.hash
-            .substring(2)
-            .split('&')[1]
-            .split('=')[1]
-          //  Use `-` to convert gid/pid to Number
-          if (memberIndex === gid - 1 && illustIndex === pid - 1)
-            this.photoswipe(
-              memberIndex,
-              illustIndex,
-              this.collection,
-              this.$refs.pswp.$el
-            )
+      if (member) member.illusts.push(res)
+      else {
+        member = {
+          id: res.user.id,
+          illusts: [res]
         }
+        this.members.push(member)
 
-        if (
-          memberIndex === this.collection.length - 1 &&
-          illustIndex === member.illust.length - 1
-        )
-          this.loaded = true
-      })
+        member = Object.assign(member, await this.api(member.id, 'member'))
+      }
+
+      // location.hash === '#&gid=?&pid=?'
+      if (
+        location.hash &&
+        illust ===
+          parseInt(
+            location.hash
+              .substring(2)
+              .split('&')[1]
+              .split('=')[1]
+          )
+      )
+        this.photoswipe(member, illust, this.$refs.pswp.$el)
+
+      if (illust === config.collection.slice(-1)[0]) this.loaded = true
     })
   },
   methods: {

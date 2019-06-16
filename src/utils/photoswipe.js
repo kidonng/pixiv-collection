@@ -1,20 +1,22 @@
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default'
 
-export default function(memberIndex, illustIndex, collection, el) {
-  const items = []
-  collection[memberIndex].illust.forEach(illust =>
+export default (member, illustID, el) => {
+  let items = []
+  member.illusts.forEach(illust =>
     items.push({
       src: illust.image_urls.large,
       msrc: illust.image_urls.small,
       h: illust.height,
-      w: illust.width
+      w: illust.width,
+      pid: illust.id
     })
   )
 
   new PhotoSwipe(el, PhotoSwipeUI, items, {
-    galleryUID: memberIndex + 1,
-    index: illustIndex,
+    galleryUID: member.id,
+    galleryPIDs: true,
+    index: items.findIndex(item => item.pid === illustID),
     barsSize: { top: 0, bottom: 0 },
     captionEl: false,
     shareEl: false
