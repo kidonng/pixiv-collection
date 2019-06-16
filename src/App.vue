@@ -3,7 +3,7 @@ v-app
   AppBar
 
   v-content: v-container
-    v-expansion-panels: v-expansion-panel.hotfix(v-for="(member, memberIndex) in collection" :key="member.id")
+    v-expansion-panels: v-expansion-panel(v-for="(member, memberIndex) in collection" :key="member.id")
       v-expansion-panel-header
         div: LazyImage(type="avatar" :lazySrc="member.profile_image_urls.px_50x50" alt="Avatar")
         .title {{ member.name }}
@@ -120,8 +120,4 @@ export default {
 <style lang="sass">
 .pointer
   cursor: pointer
-
-// Hotfix for https://github.com/vuetifyjs/vuetify/issues/7524
-.hotfix
-  flex: 1 0 100%
 </style>
