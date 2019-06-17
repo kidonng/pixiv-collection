@@ -31,5 +31,5 @@ Simple pixiv collection showcase.
 
 pixiv Collection is made possible by:
 
-- [pixiv API](https://api.imjad.cn/pixiv.md)
+- [pixiv API](https://api.imjad.cn/pixiv_v2.md)
 - [pixiv proxy](https://pixiv.cat/reverseproxy.html)
