@@ -1,17 +1,13 @@
 <template lang="pug">
-  v-tooltip(v-if="type === 'illust'" bottom)
-    template(#activator="{ on }"): v-card(flat): v-img.pointer.grey.lighten-2(
-      v-on="on"
-      :src="src"
-      :alt="alt"
-      aspect-ratio="1"
-      max-height="250"
-      max-width="250"
-      ref="img"
-    ): template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
-      v-progress-circular(indeterminate color="grey lighten-5")
-
-    span Open in gallery
+  v-card(v-if="type === 'illust'" flat): v-img.grey.lighten-2(
+    :src="src"
+    :alt="alt"
+    aspect-ratio="1"
+    max-height="250"
+    max-width="250"
+    ref="img"
+  ): template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
+    v-progress-circular(indeterminate color="grey lighten-5")
 
   v-avatar(v-else-if="type === 'avatar'"): img(:src="src" :alt="alt" ref="img")
 </template>
