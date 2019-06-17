@@ -30,7 +30,7 @@ v-app
             ) {{ illust.title }}
             span View details
 
-    v-snackbar(v-model="loading") Loading...
+    v-snackbar(v-model="loading" :timeout="0") Loading...
     Dialog(:dialog="dialog")
     PhotoSwipe(ref="pswp")
 </template>
@@ -62,29 +62,50 @@ export default {
     }
   }),
   mounted() {
-    config.collection.forEach(async illust => {
+    config.collection.forEach(async (illust, index) => {
       // Covert
-      if (typeof illust === 'number') illust = [illust]
-      else if (typeof illust === 'string')
-        illust = [new URL(illust).searchParams.get('illust_id')]
+      if (!Array.isArray(illust)) illust = [illust]
+      if (typeof illust[0] === 'string')
+        illust[0] = [new URL(illust[0]).searchParams.get('illust_id')]
+
+      // location.hash === '#&gid=[illustID]&pid=[illustIndex]'
+      let gid
+      let pid
+      if (location.hash) {
+        gid = parseInt(
+          location.hash
+            .substring(2)
+            .split('&')[0]
+            .split('=')[1]
+        )
+        pid = parseInt(
+          location.hash
+            .substring(2)
+            .split('&')[1]
+            .split('=')[1]
+        )
+      }
 
       // Process
       let res = await this.api(illust[0])
       if (res.metadata) {
+        // Filter
         if (illust[1])
-          res.metadata.pages = res.metadata.pages.filter((undefined, index) =>
-            illust[1].includes(index)
-          )
+          res.metadata.pages = illust[1].map(index => res.metadata.pages[index])
 
         res.metadata.pages.forEach(async page => {
-          const img = await ky('/api', {
+          const img = await ky('/api/', {
             searchParams: { url: image(page.image_urls.large).original }
           }).json()
 
           page.height = img.height
           page.width = img.width
+
+          // Resume
+          if (illust[0] === gid && res.metadata.pages.every(page => page.width))
+            this.photoswipe(res, this.$refs.pswp.$el, pid - 1)
         })
-      }
+      } else if (illust[0] === gid) this.photoswipe(res, this.$refs.pswp.$el, 0)
 
       // Store
       let member = this.members.find(member => member.id === res.user.id)
@@ -99,27 +120,7 @@ export default {
         Object.assign(member, await this.api(member.id, 'member'))
       }
 
-      // Resume
-      // location.hash === '#&gid=[illust_id]&pid=[illust_index]'
-      if (location.hash) {
-        const gid = parseInt(
-          location.hash
-            .substring(2)
-            .split('&')[0]
-            .split('=')[1]
-        )
-        const pid = parseInt(
-          location.hash
-            .substring(2)
-            .split('&')[1]
-            .split('=')[1]
-        )
-
-        if (illust[0] === gid) this.photoswipe(res, this.$refs.pswp.$el, pid)
-      }
-
-      // Done
-      if (illust[0] === config.collection.slice(-1)[0]) this.loading = false
+      if (index + 1 === config.collection.length) this.loading = false
     })
   },
   methods: {

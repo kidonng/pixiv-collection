@@ -4,5 +4,11 @@
     { "src": "package.json", "use": "@now/static-build" },
     { "src": "api/index.js", "use": "@now/node" }
   ],
+  "routes": [
+    {
+      "src": "/api/.+",
+      "headers": { "Cache-Control": "s-maxage=31536000, max-age=0" }
+    }
+  ],
   "alias": "pixiv.now.sh"
 }
