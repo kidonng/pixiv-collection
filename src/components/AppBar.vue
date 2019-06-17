@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-app-bar(app dark)
+  v-app-bar(app)
     v-toolbar-title {{ config.title }}
     v-spacer
     v-tooltip(v-for="(link, index) in config.links" :key="index" bottom)
