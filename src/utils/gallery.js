@@ -6,27 +6,45 @@ export default ({ el, illust, index, rect }) =>
   new PhotoSwipe(
     el,
     PhotoSwipeUI,
-    illust.metadata
-      ? illust.metadata.pages.map((page, index) => ({
-          src: image(page.image_urls.large).original,
-          msrc: image(page.image_urls.large).small,
+    illust.meta_pages.length
+      ? illust.meta_pages.map((page, index) => ({
+          src: image(page.image_urls.original).original,
+          msrc: image(page.image_urls.original).small,
           h: page.height,
           w: page.width,
           title:
             index === 0 &&
-            `${
-              illust.caption ? `<strong>${illust.caption}</strong>` : ''
-            } ${new Date(illust.created_time).toLocaleDateString()}`
+            `
+              <div class="title">${illust.title}</div>
+              <div class="subtitle-1">
+                <span class="font-weight-bold mr-2">${illust.user.name}</span>
+                <span>${new Date(
+                  illust.create_date
+                ).toLocaleDateString()}</span>
+              </div>
+              <div class="body-2">${illust.caption}</div>
+              <div class="caption mt-1">${illust.tags
+                .map(tag => tag.name)
+                .join(' ')}</div>`
         }))
       : [
           {
-            src: image(illust.image_urls.large).original,
-            msrc: image(illust.image_urls.large).small,
+            src: image(illust.meta_single_page.original_image_url).original,
+            msrc: image(illust.meta_single_page.original_image_url).small,
             h: illust.height,
             w: illust.width,
-            title: `${
-              illust.caption ? `<strong>${illust.caption}</strong>` : ''
-            } ${new Date(illust.created_time).toLocaleDateString()}`
+            title: `
+              <div class="title">${illust.title}</div>
+              <div class="subtitle-1">
+                <span class="font-weight-bold mr-2">${illust.user.name}</span>
+                <span>${new Date(
+                  illust.create_date
+                ).toLocaleDateString()}</span>
+              </div>
+              <div class="body-2">${illust.caption}</div>
+              <div class="caption mt-1">${illust.tags
+                .map(tag => tag.name)
+                .join(' ')}</div>`
           }
         ],
     {

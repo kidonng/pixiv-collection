@@ -78,6 +78,23 @@
 .pswp__button
   filter: invert(1)
 
-.pswp__caption
-  color: #fff
+.caption
+  color: #bbb
+
+@media screen and (min-width: 960px)
+  .pswp__caption
+    background: none
+    right: 0
+    bottom: unset
+    left: unset
+    width: calc(20vw - 32px)
+    margin-top: 30vh
+    margin-right: 32px
+
+  .pswp__caption__center
+    color: inherit
+
+  .caption
+    color: #9e9e9e
+    word-break: keep-all
 </style>
