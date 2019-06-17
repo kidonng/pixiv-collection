@@ -2,13 +2,13 @@
   v-app
     AppBar
 
-    v-content: v-container
+    v-content: v-container(fluid)
       v-expansion-panels: v-expansion-panel(v-for="member in members" :key="member.id")
         v-expansion-panel-header
           div: LazyImage(
             v-if="member.profile_image_urls"
             type="avatar"
-            :lazySrc="image(member.profile_image_urls.px_170x170).profile_small"
+            :lazySrc="image(member.profile_image_urls.medium).profile_small"
             alt="Avatar"
           )
           .title {{ member.name }}
@@ -28,15 +28,15 @@
             ): LazyImage(
               :class="{ pointer: loaded(illust) }"
               :lazySrc=`image(
-                illust.metadata
-                  ? illust.metadata.pages[0].image_urls.large
-                  : illust.image_urls.large
+                illust.meta_pages.length
+                  ? illust.meta_pages[0].image_urls.original
+                  : illust.meta_single_page.original_image_url
               ).small_2`
               :alt="illust.title"
             )
-            .mt-1.font-weight-bold
+            .mt-1.font-weight-bold.hidden-xs-only
               span.mr-1 {{ illust.title }}
-              v-icon(v-if="illust.metadata") mdi-image-multiple
+              v-icon(v-if="illust.meta_pages.length" size="20") mdi-image-multiple
 
       v-snackbar(v-model="loading" :timeout="0") Loading...
       PhotoSwipe(ref="pswp")
@@ -91,16 +91,16 @@ export default {
         illust[0] = [new URL(illust[0]).searchParams.get('illust_id')]
 
       // Process
-      let res = await this.api(illust[0])
-      if (res.metadata) {
+      let res = (await this.api(illust[0])).illust
+      if (res.meta_pages.length) {
         // Filter
         if (illust[1])
-          res.metadata.pages = illust[1].map(index => res.metadata.pages[index])
+          res.meta_pages = illust[1].map(index => res.meta_pages[index])
 
         // Get image size
-        res.metadata.pages.forEach(async page => {
+        res.meta_pages.forEach(async page => {
           const img = await ky('/api/', {
-            searchParams: { url: image(page.image_urls.large).original }
+            searchParams: { url: image(page.image_urls.original).original }
           }).json()
 
           this.$set(page, 'height', img.height)
@@ -127,19 +127,19 @@ export default {
         }
         this.members.push(member)
 
-        Object.assign(member, await this.api(member.id, 'member'))
+        Object.assign(member, (await this.api(member.id, 'member')).user)
       }
     })
   },
   methods: {
     api: async (id, type = 'illust') =>
-      (await ky('https://api.imjad.cn/pixiv/v1/', {
+      await ky('https://api.imjad.cn/pixiv/v2/', {
         searchParams: { id, type }
-      }).json()).response[0],
+      }).json(),
     image,
     gallery,
     loaded: illust =>
-      !illust.metadata || illust.metadata.pages.every(page => page.width)
+      !illust.meta_pages.length || illust.meta_pages.every(page => page.width)
   }
 }
 </script>
