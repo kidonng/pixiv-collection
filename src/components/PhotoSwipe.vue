@@ -80,6 +80,7 @@
 
 .caption
   color: #bbb
+  word-break: keep-all
 
 @media screen and (min-width: 960px)
   .pswp__caption
@@ -96,5 +97,4 @@
 
   .caption
     color: #9e9e9e
-    word-break: keep-all
 </style>

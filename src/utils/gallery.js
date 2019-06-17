@@ -15,7 +15,11 @@ export default ({ el, illust, index, rect }) =>
           title:
             index === 0 &&
             `
-              <div class="title">${illust.title}</div>
+              <div class="title">${
+                illust.is_bookmarked
+                  ? '<i aria-hidden="true" class="v-icon mr-1 mdi mdi-heart theme--light red--text"></i>'
+                  : ''
+              }${illust.title}</div>
               <div class="subtitle-1">
                 <span class="font-weight-bold mr-2">${illust.user.name}</span>
                 <span>${new Date(
@@ -34,7 +38,11 @@ export default ({ el, illust, index, rect }) =>
             h: illust.height,
             w: illust.width,
             title: `
-              <div class="title">${illust.title}</div>
+              <div class="title">${
+                illust.is_bookmarked
+                  ? '<i aria-hidden="true" class="v-icon mr-1 mdi mdi-heart theme--light red--text"></i>'
+                  : ''
+              }${illust.title}</div>
               <div class="subtitle-1">
                 <span class="font-weight-bold mr-2">${illust.user.name}</span>
                 <span>${new Date(
