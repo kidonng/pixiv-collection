@@ -78,8 +78,12 @@
 .pswp__button
   filter: invert(1)
 
+.pswp--zoomed-in .pswp__caption
+  opacity: 0
+
 .caption
   color: #bbb
+  word-break: keep-all
 
 @media screen and (min-width: 960px)
   .pswp__caption
@@ -96,5 +100,4 @@
 
   .caption
     color: #9e9e9e
-    word-break: keep-all
 </style>

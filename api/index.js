@@ -1,5 +1,5 @@
 module.exports = async (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' })
+  res.writeHead(200, { 'content-type': 'application/json' })
   res.end(
     JSON.stringify(
       await require('probe-image-size')(

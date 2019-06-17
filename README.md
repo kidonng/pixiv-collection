@@ -13,12 +13,24 @@ Simple pixiv collection showcase.
 ## Usage
 
 1. Add your [config and collection](./config.js).
-   Following collection formats are supported (index starts from 0; all pages will be shown if indexes not provided):
 
-- ID `53331058`
-- ID & page indexes `[53331058, [1, 2, 4, 8]]`
-- Link `'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=53331058'`
-- Link & page indexes `['https://www.pixiv.net/member_illust.php?mode=medium&illust_id=53331058', [1, 2, 4, 8]]`
+```js
+export default {
+  // ...
+  collection: [
+    // Pure ID
+    5331058,
+    // Link is fine too
+    'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=53331058',
+    // Favourite ❤️
+    [5331058, true],
+    // With indexes (starting from 0; use true for all)
+    [53331058, true, [1, 2, 4, 8]],
+    // Cover (index of indexes)
+    [5331058, true, [1, 2, 4, 8], 1]
+  ]
+}
+```
 
 2. Modify [page title](https://github.com/kidonng/pixiv-collection/blob/master/public/index.html#L5) as well.
 3. That's it!
