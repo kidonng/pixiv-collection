@@ -78,6 +78,9 @@
 .pswp__button
   filter: invert(1)
 
+.pswp--zoomed-in .pswp__caption
+  opacity: 0
+
 .caption
   color: #bbb
   word-break: keep-all
