@@ -3,7 +3,7 @@
     AppBar
 
     v-content: v-container(fluid)
-      v-expansion-panels: v-expansion-panel(v-for="member in members" :key="member.id")
+      v-expansion-panels: v-expansion-panel.fix-panel(v-for="member in members" :key="member.id")
         v-expansion-panel-header
           div: LazyImage(
             v-if="member.profile_image_urls"
@@ -22,6 +22,7 @@
               @click=`loaded(illust) && gallery({
                 el: $refs.pswp.$el,
                 illust,
+                index: illust.cover || 0,
                 rect: $refs[illust.id][0].getBoundingClientRect()
               })`
               :ref="illust.id"
@@ -29,12 +30,13 @@
               :class="{ pointer: loaded(illust) }"
               :lazySrc=`image(
                 illust.meta_pages.length
-                  ? illust.meta_pages[0].image_urls.original
+                  ? illust.meta_pages[illust.cover || 0].image_urls.original
                   : illust.meta_single_page.original_image_url
               ).small_2`
               :alt="illust.title"
             )
             .mt-1.font-weight-bold.hidden-xs-only
+              v-icon.mr-1(v-if="illust.is_bookmarked" size="20" color="red") mdi-heart
               span.mr-1 {{ illust.title }}
               v-icon(v-if="illust.meta_pages.length" size="20") mdi-image-multiple
 
@@ -92,10 +94,11 @@ export default {
 
       // Process
       let res = (await this.api(illust[0])).illust
+
       if (res.meta_pages.length) {
         // Filter
-        if (illust[1])
-          res.meta_pages = illust[1].map(index => res.meta_pages[index])
+        if (Array.isArray(illust[2]))
+          res.meta_pages = illust[2].map(index => res.meta_pages[index])
 
         // Get image size
         res.meta_pages.forEach(async page => {
@@ -116,6 +119,9 @@ export default {
         })
       } else if (illust[0] === this.gid)
         this.gallery({ el: this.$refs.pswp.$el, illust: res })
+
+      if (illust[1]) res.is_bookmarked = true
+      if (illust[3]) res.cover = illust[3]
 
       // Save
       let member = this.members.find(member => member.id === res.user.id)
@@ -147,4 +153,8 @@ export default {
 <style lang="sass" scoped>
 .pointer
   cursor: pointer
+
+// Temp fix https://github.com/vuetifyjs/vuetify/issues/7524
+.fix-panel
+  flex: 1 0 100%
 </style>
