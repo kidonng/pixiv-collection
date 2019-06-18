@@ -3,7 +3,7 @@
     AppBar
 
     v-content: v-container(fluid pa-0)
-      v-expansion-panels: v-expansion-panel(
+      v-expansion-panels: v-expansion-panel.fix-panel(
         v-for="member in members"
         :key="member.id"
       )
@@ -105,3 +105,9 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+// Temp fix https://github.com/vuetifyjs/vuetify/issues/7524
+.fix-panel
+  flex: 1 0 100%
+</style>
