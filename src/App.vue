@@ -19,7 +19,12 @@
           :pswp="$refs.pswp.$el"
         )
 
-      v-snackbar(v-model="loading" :timeout="0") Loading...
+      v-snackbar(v-model="loading" auto-height :timeout="0")
+        | Loading...
+        | If the message persists, mostly because this is your first visit, you may not be able to see the complete collection.
+        | To solve the problem, please refresh the page.
+        v-btn(@click="loading = false" text) Close
+
       PhotoSwipe(ref="pswp")
 </template>
 
@@ -42,17 +47,10 @@ export default {
   },
   data: () => ({
     config,
-    members: []
+    members: [],
+    loading: true
   }),
   computed: {
-    loading() {
-      return (
-        this.members.length &&
-        this.members
-          .map(member => member.illusts.length)
-          .reduce((prev, curr) => prev + curr) !== config.collection.length
-      )
-    },
     // location.hash === '#&gid=[illustID]&pid=[illustIndex]'
     idSet: () =>
       location.hash
@@ -61,7 +59,9 @@ export default {
         .map(id => parseInt(id.split('=')[1]))
   },
   mounted() {
-    config.collection.forEach(async illust => {
+    document.title = config.title
+
+    config.collection.forEach(async (illust, index) => {
       // Covert
       if (!Array.isArray(illust)) illust = [illust]
       if (typeof illust[0] === 'string')
@@ -101,6 +101,8 @@ export default {
       const member = this.members.find(member => member.id === res.user.id)
       if (member) member.illusts.push(res)
       else this.members.push(Object.assign({ illusts: [res] }, res.user))
+
+      if (index + 1 === config.collection.length) this.loading = false
     })
   }
 }
