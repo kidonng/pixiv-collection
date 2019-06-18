@@ -1,30 +1,40 @@
 <template lang="pug">
-  v-card(flat): v-img.illust.grey.lighten-2(
-    :class="{ loaded }"
-    :src="lazySrc"
-    :alt="illust.title"
-    aspect-ratio="1"
-    max-height="250"
-    max-width="250"
-    ref="img"
-  )
-    v-container.fill-height.pa-1: v-layout.align-end.ma-0(column)
-      v-chip(v-if="illust.meta_pages.length" small)
-        v-icon(left size="16") mdi-image-multiple
-        .font-weight-bold {{ illust.meta_pages.length }}
-      v-spacer
-      v-icon(v-if="illust.favorite" color="red") mdi-heart
-    template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
-      v-progress-circular(indeterminate color="grey lighten-5")
+  v-flex(xs6 sm4 lg2)
+    v-card(flat): v-img.grey.lighten-2(
+      :class="{ loaded }"
+      :src="lazySrc"
+      :alt="illust.title"
+      aspect-ratio="1"
+      max-height="250"
+      max-width="250"
+      ref="img"
+      @click="loaded && gallery(pswp, illust, illust.cover, $refs.img.$el.getBoundingClientRect())"
+    )
+      v-container.fill-height.pa-1: v-layout.align-end.ma-0(column)
+        v-chip(v-if="illust.meta_pages.length" small)
+          v-icon(left size="16") mdi-image-multiple
+          .font-weight-bold {{ illust.meta_pages.length }}
+        v-spacer
+        v-icon(v-if="illust.favorite" color="red") mdi-heart
+
+      template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
+        v-progress-circular(indeterminate color="grey lighten-5")
+
+    .mt-1.font-weight-bold.hidden-xs-only {{ illust.title }}
 </template>
 
 <script>
 import image from '../utils/image'
+import gallery from '../utils/gallery'
 
 export default {
   props: {
     illust: {
       type: Object,
+      required: true
+    },
+    pswp: {
+      type: Element,
       required: true
     }
   },
@@ -55,17 +65,18 @@ export default {
     this.observer.observe(this.$refs.img.$el)
   },
   methods: {
-    image
+    image,
+    gallery
   }
 }
 </script>
 
 <style lang="sass" scoped>
 .loaded
-  cursor: pointer
+  cursor: zoom-in
 
 @media screen and (min-width: 600px)
-  .illust::before
+  .loaded::before
     content: ""
     position: absolute
     height: 100%

@@ -70,7 +70,8 @@
 .pswp__bg
   background: #fff
 
-.pswp__top-bar
+.pswp__top-bar,
+.pswp__caption
   background: none
 
 .pswp__counter,
@@ -81,30 +82,22 @@
 .pswp--zoomed-in .pswp__caption
   opacity: 0
 
-.caption
-  color: #bbb
-  word-break: keep-all
+.pswp__caption__center
+  color: inherit
 
 .favorite-icon
   font-size: 20px
 
 @media screen and (min-width: 960px)
   .pswp__caption
-    background: none
     right: 0
     bottom: unset
     left: unset
-    width: calc(20vw - 32px)
     margin-top: 30vh
+    width: calc(20vw - 32px)
     margin-right: 32px
 
     .pswp__ui--one-slide &
-      width: calc(20vw - 8px)
-      margin-right: 8px
-
-  .pswp__caption__center
-    color: inherit
-
-  .caption
-    color: #9e9e9e
+      width: 20vw
+      margin-right: 0
 </style>

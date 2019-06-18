@@ -2,9 +2,30 @@ import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default'
 import image from './image'
 
-export default (el, illust, index, rect) =>
+export default (pswp, illust, index, rect) => {
+  const title = `
+    <div class="title">${illust.title}</div>
+    <div class="subtitle-1 font-weight-bold mb-1">
+      ${illust.user.name}
+      ${
+        illust.favorite
+          ? '<i aria-hidden="true" class="v-icon mdi mdi-heart theme--light ml-2 red--text favorite-icon"></i>'
+          : ''
+      }
+    </div>
+    ${
+      illust.caption
+        ? `<div class="body-2 grey--text text--darken-2 mb-2">${illust.caption}</div>`
+        : ''
+    }
+    <div class="caption grey--text text--lighten-1">${[
+      new Date(illust.create_date).toLocaleDateString(),
+      ...illust.tags.map(tag => tag.name)
+    ].join(' #')}</div>
+  `
+
   new PhotoSwipe(
-    el,
+    pswp,
     PhotoSwipeUI,
     illust.meta_pages.length
       ? illust.meta_pages.map((page, index) => ({
@@ -12,25 +33,7 @@ export default (el, illust, index, rect) =>
           msrc: image(page.image_urls.original).small,
           h: page.height,
           w: page.width,
-          title:
-            index === 0 &&
-            `
-              <div class="title">${illust.title}</div>
-              <div class="subtitle-1">
-                <span class="font-weight-bold">${illust.user.name}</span>
-                <span class="mx-2">${new Date(
-                  illust.create_date
-                ).toLocaleDateString()}</span>
-                ${
-                  illust.favorite
-                    ? '<i aria-hidden="true" class="v-icon mdi mdi-heart theme--light red--text favorite-icon"></i>'
-                    : ''
-                }
-              </div>
-              <div class="body-2">${illust.caption}</div>
-              <div class="caption mt-1">${illust.tags
-                .map(tag => tag.name)
-                .join(' ')}</div>`
+          title: index === 0 && title
         }))
       : [
           {
@@ -38,23 +41,7 @@ export default (el, illust, index, rect) =>
             msrc: image(illust.meta_single_page.original_image_url).small,
             h: illust.height,
             w: illust.width,
-            title: `
-              <div class="title">${illust.title}</div>
-              <div class="subtitle-1">
-                <span class="font-weight-bold">${illust.user.name}</span>
-                <span class="mx-2">${new Date(
-                  illust.create_date
-                ).toLocaleDateString()}</span>
-                ${
-                  illust.favorite
-                    ? '<i aria-hidden="true" class="v-icon mdi mdi-heart theme--light red--text favorite-icon"></i>'
-                    : ''
-                }
-              </div>
-              <div class="body-2">${illust.caption}</div>
-              <div class="caption mt-1">${illust.tags
-                .map(tag => tag.name)
-                .join(' ')}</div>`
+            title
           }
         ],
     {
@@ -87,3 +74,4 @@ export default (el, illust, index, rect) =>
       ]
     }
   ).init()
+}
