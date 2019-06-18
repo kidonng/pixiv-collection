@@ -2,7 +2,7 @@
   v-app-bar(app)
     v-toolbar-title {{ config.title }}
     v-spacer
-    v-tooltip(v-for="(link, index) in config.links" :key="index" bottom)
+    v-tooltip(v-for="link in config.links" :key="link.title" bottom)
       template(#activator="{ on }"): v-btn(
         v-on="on"
         :href="link.href"

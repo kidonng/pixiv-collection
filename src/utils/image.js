@@ -9,8 +9,8 @@ export default original => {
     )
 
     return {
-      profile_medium: `${prefix}user-profile${base}_170${extension}`,
-      profile_small: `${prefix}user-profile${base}_50${extension}`
+      medium: `${prefix}user-profile${base}_170${extension}`,
+      small: `${prefix}user-profile${base}_50${extension}`
     }
   } else {
     const base = original.substring(
@@ -20,6 +20,7 @@ export default original => {
     const jpg = '.jpg'
 
     return {
+      // Must provide the original link to get the correct extension
       original: `${prefix}img-original${base}${extension}`,
       large: `${prefix}c/600x1200_90_webp/img-master${base}_master1200${jpg}`,
       medium: `${prefix}c/600x600/img-master${base}_master1200${jpg}`,
@@ -28,6 +29,7 @@ export default original => {
       medium_3_square: `${prefix}c/540x540_10_webp/img-master${base}_square1200${jpg}`,
       small: `${prefix}c/150x150/img-master${base}_master1200${jpg}`,
       small_square: `${prefix}c/128x128/img-master${base}_square1200${jpg}`,
+      // Used by pixiv
       small_2: `${prefix}c/250x250_80_a2/img-master${base}_square1200${jpg}`
     }
   }
