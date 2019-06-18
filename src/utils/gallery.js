@@ -1,18 +1,9 @@
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default'
 import image from './image'
-import dayjs from 'dayjs'
-import LocalizedFormat from 'dayjs/plugin/localizedFormat'
-import zh_CN from 'dayjs/locale/zh-cn'
-
-dayjs.extend(LocalizedFormat)
+import time from './time'
 
 export default (pswp, illust, index, rect) => {
-  const time = navigator.languages.some(lang => lang === 'zh-CN')
-    ? dayjs(illust.create_date)
-        .locale(zh_CN)
-        .format('lll')
-    : dayjs(illust.create_date).format('lll')
   const title = `
     <div class="title">${illust.title}</div>
     <div class="subtitle-1 font-weight-bold mb-1">
@@ -29,7 +20,7 @@ export default (pswp, illust, index, rect) => {
         : ''
     }
     <div class="caption grey--text text--lighten-1">${[
-      time,
+      time(illust.create_date, navigator).format('lll'),
       ...illust.tags.map(tag => tag.name)
     ].join(' #')}</div>
   `
