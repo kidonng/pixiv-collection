@@ -2,7 +2,7 @@ import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default'
 import image from './image'
 
-export default ({ el, illust, index, rect }) =>
+export default (el, illust, index, rect) =>
   new PhotoSwipe(
     el,
     PhotoSwipeUI,
@@ -15,16 +15,17 @@ export default ({ el, illust, index, rect }) =>
           title:
             index === 0 &&
             `
-              <div class="title">${
-                illust.is_bookmarked
-                  ? '<i aria-hidden="true" class="v-icon mr-1 mdi mdi-heart theme--light red--text"></i>'
-                  : ''
-              }${illust.title}</div>
+              <div class="title">${illust.title}</div>
               <div class="subtitle-1">
-                <span class="font-weight-bold mr-2">${illust.user.name}</span>
-                <span>${new Date(
+                <span class="font-weight-bold">${illust.user.name}</span>
+                <span class="mx-2">${new Date(
                   illust.create_date
                 ).toLocaleDateString()}</span>
+                ${
+                  illust.favorite
+                    ? '<i aria-hidden="true" class="v-icon mdi mdi-heart theme--light red--text favorite-icon"></i>'
+                    : ''
+                }
               </div>
               <div class="body-2">${illust.caption}</div>
               <div class="caption mt-1">${illust.tags
@@ -38,16 +39,17 @@ export default ({ el, illust, index, rect }) =>
             h: illust.height,
             w: illust.width,
             title: `
-              <div class="title">${
-                illust.is_bookmarked
-                  ? '<i aria-hidden="true" class="v-icon mr-1 mdi mdi-heart theme--light red--text"></i>'
-                  : ''
-              }${illust.title}</div>
+              <div class="title">${illust.title}</div>
               <div class="subtitle-1">
-                <span class="font-weight-bold mr-2">${illust.user.name}</span>
-                <span>${new Date(
+                <span class="font-weight-bold">${illust.user.name}</span>
+                <span class="mx-2">${new Date(
                   illust.create_date
                 ).toLocaleDateString()}</span>
+                ${
+                  illust.favorite
+                    ? '<i aria-hidden="true" class="v-icon mdi mdi-heart theme--light red--text favorite-icon"></i>'
+                    : ''
+                }
               </div>
               <div class="body-2">${illust.caption}</div>
               <div class="caption mt-1">${illust.tags
