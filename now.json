@@ -6,7 +6,7 @@
   ],
   "routes": [
     {
-      "src": "/api/.+",
+      "src": "/api/",
       "headers": { "cache-control": "s-maxage=31536000, max-age=0" }
     }
   ],

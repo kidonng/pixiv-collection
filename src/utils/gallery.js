@@ -1,6 +1,7 @@
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default'
 import image from './image'
+import time from './time'
 
 export default (pswp, illust, index, rect) => {
   const title = `
@@ -19,7 +20,7 @@ export default (pswp, illust, index, rect) => {
         : ''
     }
     <div class="caption grey--text text--lighten-1">${[
-      new Date(illust.create_date).toLocaleDateString(),
+      time(illust.create_date, navigator).format('lll'),
       ...illust.tags.map(tag => tag.name)
     ].join(' #')}</div>
   `
