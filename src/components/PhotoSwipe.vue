@@ -85,6 +85,9 @@
   color: #bbb
   word-break: keep-all
 
+.favorite-icon
+  font-size: 20px
+
 @media screen and (min-width: 960px)
   .pswp__caption
     background: none
@@ -94,6 +97,10 @@
     width: calc(20vw - 32px)
     margin-top: 30vh
     margin-right: 32px
+
+    .pswp__ui--one-slide &
+      width: calc(20vw - 8px)
+      margin-right: 8px
 
   .pswp__caption__center
     color: inherit
