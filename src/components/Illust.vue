@@ -73,7 +73,7 @@ export default {
 
 <style lang="sass" scoped>
 .loaded
-  cursor: pointer
+  cursor: zoom-in
 
 @media screen and (min-width: 600px)
   .loaded::before
