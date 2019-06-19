@@ -68,7 +68,7 @@ export default {
         illust[0] = [new URL(illust[0]).searchParams.get('illust_id')]
 
       // Process
-      let res = (await ky('https://api.imjad.cn/pixiv/v2/', {
+      let res = (await ky('/api/pixiv/', {
         searchParams: { id: illust[0] }
       }).json()).illust
 
@@ -82,7 +82,7 @@ export default {
 
         res.meta_pages.forEach(async page => {
           // Get image size
-          const img = await ky('/api/', {
+          const img = await ky('/api/image/', {
             searchParams: { url: image(page.image_urls.original).original }
           }).json()
           this.$set(page, 'height', img.height)
