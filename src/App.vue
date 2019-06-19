@@ -57,25 +57,25 @@ export default {
 
     config.collection.forEach(async (illust, index) => {
       // Covert
-      if (!Array.isArray(illust)) illust = [illust]
-      if (typeof illust[0] === 'string')
-        illust[0] = [new URL(illust[0]).searchParams.get('illust_id')]
+      if (typeof illust !== 'object') illust = { id: illust }
+      if (typeof illust.id === 'string')
+        illust.id = [new URL(illust.id).searchParams.get('illust_id')]
 
       // Process
       let res = (await ky('/api/pixiv/', {
-        searchParams: { id: illust[0] }
+        searchParams: { id: illust.id }
       }).json()).illust
 
-      if (illust[1]) res.favorite = true
-      if (illust[3] && illust[3][0]) res.cover = illust[3][0]
+      res.favorite = illust.favorite
+      res.cover = illust.cover
 
       if (res.meta_pages.length) {
         // Filter
-        if (Array.isArray(illust[2]))
+        if (illust.indexes)
           res.meta_pages = res.meta_pages.filter((page, index) =>
-            illust[3] && illust[3][1]
-              ? !illust[2].includes(index)
-              : illust[2].includes(index)
+            illust.exclude
+              ? !illust.indexes.includes(index)
+              : illust.indexes.includes(index)
           )
 
         res.meta_pages.forEach(async page => {
@@ -88,12 +88,12 @@ export default {
 
           // Resume
           if (
-            illust[0] === this.idSet[0] &&
+            illust.id === this.idSet[0] &&
             res.meta_pages.every(page => page.width)
           )
             gallery(this.$refs.pswp.$el, res, this.idSet[1] - 1)
         })
-      } else if (illust[0] === this.idSet[0]) gallery(this.$refs.pswp.$el, res)
+      } else if (illust.id === this.idSet[0]) gallery(this.$refs.pswp.$el, res)
 
       // Save
       const member = this.members.find(member => member.id === res.user.id)
