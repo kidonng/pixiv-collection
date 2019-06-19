@@ -18,16 +18,18 @@ Simple pixiv collection showcase.
 export default {
   // ...
   collection: [
-    // Pure ID
+    // ID
     5331058,
-    // Link is fine too
+    // Link
     'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=53331058',
     // Favourite ❤️
     [5331058, true],
-    // With indexes (starting from 0; use true for all)
+    // Select by indexes (starting from 0; set `true` for all)
     [53331058, true, [1, 2, 4, 8]],
-    // Cover (index of indexes)
-    [5331058, true, [1, 2, 4, 8], 1]
+    // Cover (index of filtered pages)
+    [5331058, true, [1, 2, 4, 8], [1]],
+    // Exclude mode
+    [5331058, true, [1, 2, 4, 8], [1, true]]
   ]
 }
 ```

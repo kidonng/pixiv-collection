@@ -1,6 +1,6 @@
 <template lang="pug">
   v-flex(xs6 sm4 lg2)
-    v-card(flat): v-img.grey.lighten-2(
+    v-card(flat :tile="breakpoint('xs')"): v-img.grey.lighten-2(
       :class="{ loaded }"
       :src="lazySrc"
       :alt="illust.title"
@@ -11,7 +11,7 @@
       @click="loaded && gallery(pswp, illust, illust.cover, $refs.img.$el.getBoundingClientRect())"
     )
       v-container.fill-height.pa-1: v-layout.align-end.ma-0(column)
-        v-chip(v-if="illust.meta_pages.length" small)
+        v-chip(v-if="illust.meta_pages.length > 1" small)
           v-icon(left size="16") mdi-image-multiple
           .font-weight-bold {{ illust.meta_pages.length }}
         v-spacer
@@ -61,6 +61,9 @@ export default {
     this.observer.observe(this.$refs.img.$el)
   },
   methods: {
+    breakpoint(name) {
+      return this.$vuetify.breakpoint.name === name
+    },
     gallery
   }
 }
