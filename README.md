@@ -12,30 +12,32 @@ Simple pixiv collection showcase.
 
 ## Usage
 
-1. Add your [config and collection](./config.js).
+Add your [config and collection](./config.js).
 
 ```js
 export default {
   // ...
   collection: [
     // ID
-    5331058,
-    // Link
-    'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=53331058',
-    // Favourite ❤️
-    [5331058, true],
-    // Select by indexes (starting from 0; set `true` for all)
-    [53331058, true, [1, 2, 4, 8]],
-    // Cover (index of filtered pages)
-    [5331058, true, [1, 2, 4, 8], [1]],
-    // Exclude mode
-    [5331058, true, [1, 2, 4, 8], [1, true]]
+    20959870,
+    {
+      // Link is fine too
+      id:
+        'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=20959870',
+      // Favourite ❤️
+      favorite: true,
+      // Select by page
+      pages: [1, 11],
+      // Exclude selected
+      exclude: true,
+      // Cover
+      cover: 7
+    }
   ]
 }
 ```
 
-2. Modify [page title](https://github.com/kidonng/pixiv-collection/blob/master/public/index.html#L5) as well.
-3. That's it!
+Then:
 
 - Setup `yarn`
 - Development `yarn serve`
