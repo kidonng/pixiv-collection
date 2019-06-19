@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import image from '../utils/image'
 import gallery from '../utils/gallery'
 
 export default {
@@ -46,12 +45,9 @@ export default {
     lazySrc() {
       if (this.isIntersecting) this.observer.disconnect()
       return this.isIntersecting
-        ? this.image(
-            this.illust.meta_pages.length
-              ? this.illust.meta_pages[this.illust.cover || 0].image_urls
-                  .original
-              : this.illust.meta_single_page.original_image_url
-          ).small_2
+        ? this.illust.meta_pages.length
+          ? this.illust.meta_pages[this.illust.cover || 0].image_urls.thumb
+          : this.illust.image_urls.thumb
         : ''
     },
     loaded() {
@@ -65,7 +61,6 @@ export default {
     this.observer.observe(this.$refs.img.$el)
   },
   methods: {
-    image,
     gallery
   }
 }
