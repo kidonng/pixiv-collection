@@ -9,8 +9,8 @@
       )
         PanelHeader(:member="member")
 
-        v-expansion-panel-content: v-container(
-          :grid-list-xl="$vuetify.breakpoint.name !== 'xs'"
+        v-expansion-panel-content(:class="{ 'pa-0': breakpoint('xs') }"): v-container(
+          :grid-list-xl="!breakpoint('xs')"
           px-0
         ): v-layout(wrap): Illust(
           v-for="illust in member.illusts"
@@ -20,8 +20,6 @@
         )
 
       v-snackbar(v-model="loading" :timeout="0") Loading...
-        v-btn(@click="loading = false" text) Close
-
       PhotoSwipe(ref="pswp")
 </template>
 
@@ -69,12 +67,16 @@ export default {
       }).json()).illust
 
       if (illust[1]) res.favorite = true
-      if (illust[3]) res.cover = illust[3]
+      if (illust[3] && illust[3][0]) res.cover = illust[3][0]
 
       if (res.meta_pages.length) {
         // Filter
         if (Array.isArray(illust[2]))
-          res.meta_pages = illust[2].map(index => res.meta_pages[index])
+          res.meta_pages = res.meta_pages.filter((page, index) =>
+            illust[3] && illust[3][1]
+              ? !illust[2].includes(index)
+              : illust[2].includes(index)
+          )
 
         res.meta_pages.forEach(async page => {
           // Get image size
@@ -100,6 +102,11 @@ export default {
 
       if (index + 1 === config.collection.length) this.loading = false
     })
+  },
+  methods: {
+    breakpoint(name) {
+      return this.$vuetify.breakpoint.name === name
+    }
   }
 }
 </script>
