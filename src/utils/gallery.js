@@ -18,7 +18,7 @@ export default (pswp, illust, index, rect) => {
         ? `<div class="body-2 grey--text text--darken-2 mb-2">${illust.caption}</div>`
         : ''
     }
-    <div class="caption grey--text text--lighten-1">${[
+    <div class="caption grey--text">${[
       time(illust.create_date, navigator).format('lll'),
       ...illust.tags.map(tag => tag.name)
     ].join(' #')}</div>
