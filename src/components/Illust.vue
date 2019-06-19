@@ -72,12 +72,4 @@ export default {
 <style lang="sass" scoped>
 .loaded
   cursor: zoom-in
-
-@media screen and (min-width: 600px)
-  .loaded::before
-    content: ""
-    position: absolute
-    height: 100%
-    width: 100%
-    background-color: rgba(0, 0, 0, .02)
 </style>

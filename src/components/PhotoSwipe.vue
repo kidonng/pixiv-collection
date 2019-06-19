@@ -67,23 +67,24 @@
 @import '~photoswipe/dist/photoswipe.css'
 @import '~photoswipe/dist/default-skin/default-skin.css'
 
-.pswp__bg
-  background: #fff
+.theme--light
+  .pswp__bg
+    background: #fff
 
-.pswp__top-bar,
-.pswp__caption
-  background: none
+  .pswp__top-bar,
+  .pswp__caption
+    background: none
 
-.pswp__counter,
-.pswp__preloader,
-.pswp__button
-  filter: invert(1)
+  .pswp__counter,
+  .pswp__preloader,
+  .pswp__button
+    filter: invert(1)
 
-.pswp--zoomed-in .pswp__caption
-  opacity: 0
+  .pswp--zoomed-in .pswp__caption
+    opacity: 0
 
-.pswp__caption__center
-  color: inherit
+  .pswp__caption__center
+    color: inherit
 
 .favorite-icon
   font-size: 20px
