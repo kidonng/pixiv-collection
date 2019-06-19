@@ -19,10 +19,7 @@
           :pswp="$refs.pswp.$el"
         )
 
-      v-snackbar(v-model="loading" auto-height :timeout="0")
-        | Loading...
-        | If the message persists, mostly because this is your first visit, you may not be able to see the complete collection.
-        | To solve the problem, please refresh the page.
+      v-snackbar(v-model="loading" :timeout="0") Loading...
         v-btn(@click="loading = false" text) Close
 
       PhotoSwipe(ref="pswp")
@@ -34,7 +31,6 @@ import AppBar from './components/AppBar'
 import PanelHeader from './components/PanelHeader'
 import Illust from './components/Illust'
 import PhotoSwipe from './components/PhotoSwipe'
-import image from './utils/image'
 import gallery from './utils/gallery'
 import ky from 'ky'
 
@@ -83,7 +79,7 @@ export default {
         res.meta_pages.forEach(async page => {
           // Get image size
           const img = await ky('/api/image/', {
-            searchParams: { url: image(page.image_urls.original).original }
+            searchParams: { url: page.image_urls.original }
           }).json()
           this.$set(page, 'height', img.height)
           this.$set(page, 'width', img.width)
