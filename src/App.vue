@@ -66,17 +66,21 @@ export default {
         searchParams: { id: illust.id }
       }).json()).illust
 
-      res.favorite = illust.favorite
-      res.cover = illust.cover
+      if (illust.favorite) res.favorite = true
 
       if (res.meta_pages.length) {
+        const pages = Object.assign([], res.meta_pages)
+
         // Filter
-        if (illust.indexes)
+        if (illust.pages)
           res.meta_pages = res.meta_pages.filter((page, index) =>
             illust.exclude
-              ? !illust.indexes.includes(index)
-              : illust.indexes.includes(index)
+              ? !illust.pages.includes(index + 1)
+              : illust.pages.includes(index + 1)
           )
+
+        if (illust.cover)
+          res.cover = res.meta_pages.indexOf(pages[illust.cover - 1])
 
         res.meta_pages.forEach(async page => {
           // Get image size

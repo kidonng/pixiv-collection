@@ -26,12 +26,12 @@ export default {
         'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=20959870',
       // Favourite ❤️
       favorite: true,
-      // Select by indexes (starting from 0)
-      indexes: [0, 10],
+      // Select by page
+      pages: [1, 11],
       // Exclude selected
       exclude: true,
-      // Cover (index of filtered pages)
-      cover: 5
+      // Cover
+      cover: 7
     }
   ]
 }
