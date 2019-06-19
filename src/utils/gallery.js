@@ -1,6 +1,5 @@
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default'
-import image from './image'
 import time from './time'
 
 export default (pswp, illust, index, rect) => {
@@ -30,16 +29,16 @@ export default (pswp, illust, index, rect) => {
     PhotoSwipeUI,
     illust.meta_pages.length
       ? illust.meta_pages.map((page, index) => ({
-          src: image(page.image_urls.original).original,
-          msrc: image(page.image_urls.original).small,
+          src: page.image_urls.original,
+          msrc: page.image_urls.small,
           h: page.height,
           w: page.width,
           title: index === 0 && title
         }))
       : [
           {
-            src: image(illust.meta_single_page.original_image_url).original,
-            msrc: image(illust.meta_single_page.original_image_url).small,
+            src: illust.meta_single_page.original_image_url,
+            msrc: illust.image_urls.small,
             h: illust.height,
             w: illust.width,
             title

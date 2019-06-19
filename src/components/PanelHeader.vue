@@ -11,8 +11,6 @@
 </template>
 
 <script>
-import image from '../utils/image'
-
 export default {
   props: {
     member: {
@@ -27,9 +25,7 @@ export default {
   computed: {
     lazySrc() {
       if (this.isIntersecting) this.observer.disconnect()
-      return this.isIntersecting
-        ? this.image(this.member.profile_image_urls.medium).small
-        : ''
+      return this.isIntersecting ? this.member.profile_image_urls.small : ''
     }
   },
   mounted() {
@@ -37,9 +33,6 @@ export default {
       entries => (this.isIntersecting = entries[0].isIntersecting)
     )
     this.observer.observe(this.$refs.img.$el)
-  },
-  methods: {
-    image
   }
 }
 </script>
