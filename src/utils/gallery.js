@@ -1,8 +1,17 @@
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default'
+import galite from 'ga-lite'
 import time from './time'
 
 export default (pswp, illust, index, rect) => {
+  galite(
+    'send',
+    'event',
+    illust.user.name,
+    'View',
+    `${illust.title} (${illust.id})`
+  )
+
   const title = `
     <div class="title">${illust.title}</div>
     <div class="subtitle-1 font-weight-bold mb-1">

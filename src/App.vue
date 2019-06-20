@@ -31,6 +31,7 @@ import Illust from './components/Illust'
 import PhotoSwipe from './components/PhotoSwipe'
 import gallery from './utils/gallery'
 import ky from 'ky'
+import galite from 'ga-lite'
 
 export default {
   components: {
@@ -53,6 +54,11 @@ export default {
         .map(id => parseInt(id.split('=')[1]))
   },
   mounted() {
+    if (config.googleAnalyticsID) {
+      galite('create', config.googleAnalyticsID, 'auto')
+      galite('send', 'pageview')
+    }
+
     document.title = config.title
 
     config.collection.forEach(async (illust, index) => {

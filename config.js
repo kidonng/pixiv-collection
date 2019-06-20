@@ -12,6 +12,7 @@ export default {
       href: 'https://github.com/kidonng/pixiv-collection'
     }
   ],
+  googleAnalyticsID: 'UA-140053908-3',
   collection: [
     // なもり (https://www.pixiv.net/member.php?id=124923)
     { id: 20959870, pages: [1, 11], exclude: true, cover: 7 },
