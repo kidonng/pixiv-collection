@@ -5,13 +5,15 @@ import time from './time'
 import config from '../../config'
 
 export default (el, illust, index, rect) => {
-  galite(
-    'send',
-    'event',
-    illust.user.name,
-    'View',
-    `${illust.title} (${illust.id})`
-  )
+  if (config.googleAnalyticsID) {
+    galite(
+      'send',
+      'event',
+      illust.user.name,
+      'View',
+      `${illust.title} (${illust.id})`
+    )
+  }
 
   document.title = `${illust.title} / ${illust.user.name} - ${config.title}`
 
