@@ -2,8 +2,9 @@ import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default'
 import galite from 'ga-lite'
 import time from './time'
+import config from '../../config'
 
-export default (pswp, illust, index, rect) => {
+export default (el, illust, index, rect) => {
   galite(
     'send',
     'event',
@@ -11,6 +12,8 @@ export default (pswp, illust, index, rect) => {
     'View',
     `${illust.title} (${illust.id})`
   )
+
+  document.title = `${illust.title} / ${illust.user.name} - ${config.title}`
 
   const title = `
     <div class="title">${illust.title}</div>
@@ -33,8 +36,8 @@ export default (pswp, illust, index, rect) => {
     ].join(' #')}</div>
   `
 
-  new PhotoSwipe(
-    pswp,
+  const pswp = new PhotoSwipe(
+    el,
     PhotoSwipeUI,
     illust.meta_pages.length
       ? illust.meta_pages.map((page, index) => ({
@@ -82,5 +85,7 @@ export default (pswp, illust, index, rect) => {
         }
       ]
     }
-  ).init()
+  )
+  pswp.listen('destroy', () => (document.title = config.title))
+  pswp.init()
 }
