@@ -75,7 +75,7 @@ export default {
       if (illust.favorite) res.favorite = true
 
       if (res.meta_pages.length) {
-        const pages = Object.assign([], res.meta_pages)
+        const pages = [...res.meta_pages]
 
         // Filter
         if (illust.pages)
@@ -108,7 +108,7 @@ export default {
       // Save
       const member = this.members.find(member => member.id === res.user.id)
       if (member) member.illusts.push(res)
-      else this.members.push(Object.assign({ illusts: [res] }, res.user))
+      else this.members.push({ illusts: [res], ...res.user })
 
       if (index + 1 === config.collection.length) this.loading = false
     })
