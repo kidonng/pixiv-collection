@@ -88,6 +88,9 @@ export default (el, illust, index, rect) => {
       ]
     }
   )
-  pswp.listen('destroy', () => (document.title = config.title))
+  // The title displayed in Chrome (other browsers not tested) will revert if there's no delay
+  pswp.listen('destroy', () =>
+    setTimeout(() => (document.title = config.title), 50)
+  )
   pswp.init()
 }
