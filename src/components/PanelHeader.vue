@@ -1,10 +1,6 @@
 <template lang="pug">
   v-expansion-panel-header
-    div: v-menu(
-      v-model="menu"
-      max-width="320"
-      ref="avatar"
-    )
+    div: v-menu(v-model="menu" ref="avatar")
       template(#activator="{}"): v-avatar: v-img.grey.lighten-2(
         :src="lazySrc"
         :alt="member.user.title"
@@ -13,7 +9,7 @@
       ): template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
         v-progress-circular(indeterminate color="grey lighten-5")
 
-      v-card(min-width="150" min-height="100")
+      v-card(min-width="200" min-height="150" max-width="300" max-height="400")
         v-list(v-if="memberInfo")
           v-list-item
             v-list-item-avatar: img(:src="memberInfo.user.profile_image_urls.small")

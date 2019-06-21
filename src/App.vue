@@ -66,12 +66,7 @@ export default {
     loading: true
   }),
   computed: {
-    // location.hash === '#&gid=[illustID]&pid=[illustIndex]'
-    idSet: () =>
-      location.hash
-        .substring(2)
-        .split('&')
-        .map(id => parseInt(id.split('=')[1]))
+    idSet: () => new URLSearchParams(location.hash.substring(2))
   },
   mounted() {
     if (config.googleAnalyticsID) {
@@ -118,12 +113,17 @@ export default {
 
           // Resume
           if (
-            illust.id === this.idSet[0] &&
+            illust.id === parseInt(this.idSet.get('gid')) &&
             res.meta_pages.every(page => page.width)
           )
-            gallery(this.$refs.pswp.$el, res, this.idSet[1] - 1)
+            gallery(
+              this.$refs.pswp.$el,
+              res,
+              parseInt(this.idSet.get('pid')) - 1
+            )
         })
-      } else if (illust.id === this.idSet[0]) gallery(this.$refs.pswp.$el, res)
+      } else if (illust.id === parseInt(this.idSet.get('gid')))
+        gallery(this.$refs.pswp.$el, res)
 
       // Save
       const member = this.members.find(member => member.user.id === res.user.id)

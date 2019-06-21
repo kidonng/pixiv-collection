@@ -24,7 +24,7 @@ export default {
     27296967,
     29360562,
     29717757,
-    { id: 30826857, favorite: true, cover: 2 },
+    { id: 30826857, favorite: true, pages: [9], exclude: true, cover: 2 },
     32331312,
     { id: 48819307, pages: [1] },
     { id: 49095969, pages: [1] },
