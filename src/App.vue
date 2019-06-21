@@ -74,8 +74,6 @@ export default {
       galite('send', 'pageview')
     }
 
-    document.title = config.title
-
     config.collection.forEach(async (illust, index) => {
       // Covert
       if (typeof illust !== 'object') illust = { id: illust }
@@ -83,7 +81,7 @@ export default {
         illust.id = [new URL(illust.id).searchParams.get('illust_id')]
 
       // Process
-      let res = (await ky(`${this.api}/pixiv/`, {
+      let res = (await ky('/api/pixiv/', {
         searchParams: { id: illust.id }
       }).json()).illust
 
@@ -105,7 +103,7 @@ export default {
 
         res.meta_pages.forEach(async page => {
           // Get image size
-          const img = await ky(`${this.api}/image/`, {
+          const img = await ky('/api/image/', {
             searchParams: { url: page.image_urls.original }
           }).json()
           this.$set(page, 'height', img.height)
