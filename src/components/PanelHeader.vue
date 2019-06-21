@@ -32,7 +32,7 @@
               ): v-icon mdi-open-in-new
           v-list-item(v-if="memberInfo.user.comment")
             v-list-item-icon: v-icon mdi-information
-            v-list-item-content {{ memberInfo.user.comment }}
+            v-list-item-content(v-html="memberInfo.user.comment.replace(/\\n/g, '<br>')")
           v-list-item(v-if="memberInfo.profile.twitter_account")
             v-list-item-icon: v-icon mdi-twitter
             v-list-item-content: a(
