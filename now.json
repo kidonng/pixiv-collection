@@ -7,7 +7,10 @@
   "routes": [
     {
       "src": "/api/.*",
-      "headers": { "content-type": "application/json" },
+      "headers": {
+        "access-control-allow-origin": "*",
+        "content-type": "application/json"
+      },
       "continue": true
     },
     {

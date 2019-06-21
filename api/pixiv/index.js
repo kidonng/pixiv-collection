@@ -32,13 +32,13 @@ module.exports = async (req, res) => {
         })
       }
 
-      if (parsed.illust || parsed.user)
-        (
-          parsed.illust || parsed
-        ).user.profile_image_urls.small = parsed.illust.user.profile_image_urls.medium.replace(
+      if (parsed.illust || parsed.user) {
+        const target = parsed.illust || parsed
+        target.user.profile_image_urls.small = target.user.profile_image_urls.medium.replace(
           '_170',
           '_50'
         )
+      }
 
       reply(parsed)
     } catch (e) {
