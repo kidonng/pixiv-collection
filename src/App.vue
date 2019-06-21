@@ -142,6 +142,9 @@ export default {
 </script>
 
 <style lang="sass">
+a
+  text-decoration: none
+
 .px-0-child > div
   padding-right: 0
   padding-left: 0

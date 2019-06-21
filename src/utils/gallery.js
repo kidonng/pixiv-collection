@@ -70,10 +70,6 @@ export default (pswpElement, illust, index, rect) => {
         label: 'View on pixiv',
         url: `https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illust.id}`
       },
-      {
-        label: 'View illustrator profile',
-        url: `https://www.pixiv.net/member.php?id=${illust.user.id}`
-      },
       { label: 'Raw image', url: '{{raw_image_url}}' }
     ].map(btn => ({ id: 'download', download: true, ...btn }))
   }
