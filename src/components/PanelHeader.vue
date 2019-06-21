@@ -2,12 +2,13 @@
   v-expansion-panel-header
     div: v-avatar: v-img.grey.lighten-2(
       :src="lazySrc"
-      :alt="member.title"
+      :alt="member.user.title"
       aspect-ratio="1"
       ref="img"
     ): template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
-        v-progress-circular(indeterminate color="grey lighten-5")
-    .title {{ member.name }}
+      v-progress-circular(indeterminate color="grey lighten-5")
+
+    .title {{ member.user.name }}
 </template>
 
 <script>
@@ -25,7 +26,9 @@ export default {
   computed: {
     lazySrc() {
       if (this.isIntersecting) this.observer.disconnect()
-      return this.isIntersecting ? this.member.profile_image_urls.small : ''
+      return this.isIntersecting
+        ? this.member.user.profile_image_urls.small
+        : ''
     }
   },
   mounted() {

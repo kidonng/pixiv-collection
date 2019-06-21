@@ -2,14 +2,35 @@
   v-app
     AppBar
 
-    v-content: v-container(fluid pa-0)
-      v-expansion-panels: v-expansion-panel.fix-panel(
+    v-content: v-container(
+      fluid
+      px-0
+      :fill-height="loading"
+    )
+      v-layout(
+        v-if="loading"
+        align-content-center
+        justify-center
+        wrap
+      )
+        v-flex(
+          xs12
+          subtitle-1
+          text-xs-center
+        ) Loading
+        v-flex(xs6): v-progress-linear(
+          indeterminate
+          rounded
+          height="6"
+        )
+
+      v-expansion-panels(v-else popout): v-expansion-panel.fix-panel(
         v-for="member in members"
-        :key="member.id"
+        :key="member.user.id"
       )
         PanelHeader(:member="member")
 
-        v-expansion-panel-content(:class="{ 'pa-0': breakpoint('xs') }"): v-container(
+        v-expansion-panel-content(:class="{ 'px-0-child': breakpoint('xs') }"): v-container(
           :grid-list-xl="!breakpoint('xs')"
           px-0
         ): v-layout(wrap): Illust(
@@ -19,15 +40,14 @@
           :pswp="$refs.pswp.$el"
         )
 
-      v-snackbar(v-model="loading" :timeout="0") Loading...
       PhotoSwipe(ref="pswp")
 </template>
 
 <script>
 import config from '../config'
 import AppBar from './components/AppBar'
-import PanelHeader from './components/PanelHeader'
 import Illust from './components/Illust'
+import PanelHeader from './components/PanelHeader'
 import PhotoSwipe from './components/PhotoSwipe'
 import gallery from './utils/gallery'
 import ky from 'ky'
@@ -36,8 +56,8 @@ import galite from 'ga-lite'
 export default {
   components: {
     AppBar,
-    PanelHeader,
     Illust,
+    PanelHeader,
     PhotoSwipe
   },
   data: () => ({
@@ -106,9 +126,9 @@ export default {
       } else if (illust.id === this.idSet[0]) gallery(this.$refs.pswp.$el, res)
 
       // Save
-      const member = this.members.find(member => member.id === res.user.id)
+      const member = this.members.find(member => member.user.id === res.user.id)
       if (member) member.illusts.push(res)
-      else this.members.push({ illusts: [res], ...res.user })
+      else this.members.push({ illusts: [res], user: res.user })
 
       if (index + 1 === config.collection.length) this.loading = false
     })
@@ -122,6 +142,10 @@ export default {
 </script>
 
 <style lang="sass">
+.px-0-child > div
+  padding-right: 0
+  padding-left: 0
+
 // Temp fix https://github.com/vuetifyjs/vuetify/issues/7524
 .fix-panel
   flex: 1 0 100%
