@@ -54,10 +54,6 @@
           class="pswp__button pswp__button--arrow--right"
           title="Next (Right)"
         ></button>
-
-        <div class="pswp__caption">
-          <div class="pswp__caption__center"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -71,34 +67,11 @@
   .pswp__bg
     background: #fff
 
-  .pswp__top-bar,
-  .pswp__caption
+  .pswp__top-bar
     background: none
 
   .pswp__counter,
   .pswp__preloader,
   .pswp__button
     filter: invert(1)
-
-  .pswp--zoomed-in .pswp__caption
-    opacity: 0
-
-  .pswp__caption__center
-    color: inherit
-
-.favorite-icon
-  font-size: 20px
-
-@media screen and (min-width: 960px)
-  .pswp__caption
-    right: 0
-    bottom: unset
-    left: unset
-    margin-top: 30vh
-    width: calc(20vw - 32px)
-    margin-right: 32px
-
-    .pswp__ui--one-slide &
-      width: 20vw
-      margin-right: 0
 </style>
