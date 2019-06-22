@@ -1,5 +1,8 @@
 # pixiv Collection
 
+[![Website](https://img.shields.io/website/https/pixiv.now.sh.svg?style=for-the-badge)](https://pixiv.now.sh/)
+[![GitHub](https://img.shields.io/github/license/kidonng/pixiv-collection.svg?style=for-the-badge)](./LICENSE)
+
 Simple pixiv collection showcase.
 
 ## Features
