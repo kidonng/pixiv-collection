@@ -1,5 +1,6 @@
 const querystring = require('querystring')
 const got = require('got')
+const probe = require('probe-image-size')
 
 module.exports = async (req, res) => {
   const query = querystring.parse(req.url.substring(req.url.indexOf('?') + 1))
@@ -15,23 +16,6 @@ module.exports = async (req, res) => {
         )).body.replace(/i\.pximg\.net/g, 'i.pixiv.cat')
       )
 
-      if (parsed.illust) {
-        const illusts = parsed.illust.meta_pages.length
-          ? [parsed.illust, ...parsed.illust.meta_pages]
-          : [parsed.illust]
-
-        illusts.forEach(illust => {
-          illust.image_urls.small = illust.image_urls.medium.replace(
-            '540x540_70',
-            '150x150'
-          )
-          illust.image_urls.thumb = illust.image_urls.square_medium.replace(
-            '540x540_10_webp',
-            '250x250_80_a2'
-          )
-        })
-      }
-
       if (parsed.illust || parsed.user) {
         const target = parsed.illust || parsed
         target.user.profile_image_urls.small = target.user.profile_image_urls.medium.replace(
@@ -40,7 +24,31 @@ module.exports = async (req, res) => {
         )
       }
 
-      reply(parsed)
+      if (parsed.illust) {
+        const illusts = parsed.illust.meta_pages.length
+          ? [parsed.illust, ...parsed.illust.meta_pages]
+          : [parsed.illust]
+
+        illusts.forEach(async illust => {
+          illust.image_urls.small = illust.image_urls.medium.replace(
+            '540x540_70',
+            '150x150'
+          )
+          illust.image_urls.thumb = illust.image_urls.square_medium.replace(
+            '540x540_10_webp',
+            '250x250_80_a2'
+          )
+
+          if (!illust.height) {
+            const res = await probe(illust.image_urls.original)
+
+            illust.height = res.height
+            illust.width = res.width
+          }
+
+          if (illusts.every(illust => illust.height)) reply(parsed)
+        })
+      }
     } catch (e) {
       res.writeHead(500)
       reply({ error: JSON.stringify(e) })

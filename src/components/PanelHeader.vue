@@ -81,7 +81,7 @@ export default {
       this.menu = true
 
       if (!this.memberInfo)
-        this.memberInfo = await ky('/api/pixiv/', {
+        this.memberInfo = await ky('/api/', {
           searchParams: { type: 'member', id: this.member.user.id }
         }).json()
     }
