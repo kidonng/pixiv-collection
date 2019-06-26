@@ -20,7 +20,7 @@
       template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
         v-progress-circular(indeterminate color="grey lighten-5")
 
-    v-menu
+    v-menu(offset-x)
       template(#activator="{ on }"): .mt-1.font-weight-bold.pointer(
         v-on="on"
         :class="{ 'my-2 ml-2': breakpoint('xs') }"

@@ -1,6 +1,6 @@
 <template lang="pug">
   v-expansion-panel-header
-    div: v-menu(v-model="menu" ref="avatar")
+    div: v-menu(v-model="menu" offset-x ref="avatar")
       template(#activator="{}"): v-avatar: v-img.grey.lighten-2(
         :src="lazySrc"
         :alt="member.user.title"
