@@ -32,6 +32,6 @@
     "singleQuote": true
   },
   "workspaces": [
-    "api/*"
+    "api"
   ]
 }

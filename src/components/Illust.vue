@@ -1,14 +1,13 @@
 <template lang="pug">
   v-flex(xs6 sm4 lg2)
-    v-card(flat :tile="breakpoint('xs')"): v-img.grey.lighten-2(
-      :class="{ loaded }"
+    v-card(flat :tile="breakpoint('xs')"): v-img.zoom.grey.lighten-2(
       :src="lazySrc"
       :alt="illust.title"
       aspect-ratio="1"
       max-height="250"
       max-width="250"
       ref="img"
-      @click="loaded && gallery(pswp, illust, illust.cover, $refs.img.$el.getBoundingClientRect())"
+      @click="gallery(pswp, illust, illust.cover, $refs.img.$el.getBoundingClientRect())"
     )
       v-container.fill-height.pa-1: v-layout.align-end.ma-0(column)
         v-chip(v-if="illust.meta_pages.length > 1" small)
@@ -78,9 +77,6 @@ export default {
           : this.illust.image_urls.thumb
         : ''
     },
-    loaded() {
-      return this.illust.meta_pages.every(page => page.width)
-    },
     time() {
       return time(this.illust.create_date, navigator).format('lll')
     },
@@ -112,7 +108,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.loaded
+.zoom
   cursor: zoom-in
 
 .pointer

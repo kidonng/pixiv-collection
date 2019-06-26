@@ -66,7 +66,7 @@ export default {
     loading: true
   }),
   computed: {
-    idSet: () => new URLSearchParams(location.hash.substring(2))
+    searchParams: () => new URLSearchParams(location.hash.substring(2))
   },
   mounted() {
     if (config.googleAnalyticsID) {
@@ -81,13 +81,14 @@ export default {
         illust.id = [new URL(illust.id).searchParams.get('illust_id')]
 
       // Process
-      let res = (await ky('/api/pixiv/', {
+      let res = (await ky('/api/', {
         searchParams: { id: illust.id }
       }).json()).illust
 
       if (illust.favorite) res.favorite = true
 
       if (res.meta_pages.length) {
+        // Copy for cover index
         const pages = [...res.meta_pages]
 
         // Filter
@@ -100,28 +101,15 @@ export default {
 
         if (illust.cover)
           res.cover = res.meta_pages.indexOf(pages[illust.cover - 1])
+      }
 
-        res.meta_pages.forEach(async page => {
-          // Get image size
-          const img = await ky('/api/image/', {
-            searchParams: { url: page.image_urls.original }
-          }).json()
-          this.$set(page, 'height', img.height)
-          this.$set(page, 'width', img.width)
-
-          // Resume
-          if (
-            illust.id === parseInt(this.idSet.get('gid')) &&
-            res.meta_pages.every(page => page.width)
-          )
-            gallery(
-              this.$refs.pswp.$el,
-              res,
-              parseInt(this.idSet.get('pid')) - 1
-            )
-        })
-      } else if (illust.id === parseInt(this.idSet.get('gid')))
-        gallery(this.$refs.pswp.$el, res)
+      // Resume
+      if (res.id === parseInt(this.searchParams.get('gid')))
+        gallery(
+          this.$refs.pswp.$el,
+          res,
+          parseInt(this.searchParams.get('pid')) - 1
+        )
 
       // Save
       const member = this.members.find(member => member.user.id === res.user.id)

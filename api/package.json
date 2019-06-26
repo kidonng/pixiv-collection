@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "got": "^9.6.0"
+    "got": "^9.6.0",
+    "probe-image-size": "^4.0.0"
   }
 }

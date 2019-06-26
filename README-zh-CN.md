@@ -11,9 +11,9 @@
 
 简洁的 pixiv 收藏展示台。
 
-Desktop | Mobile
----         | ---
-![](screenshots/desktop.png) | ![](screenshots/mobile.png)
+| Desktop                      | Mobile                      |
+| ---------------------------- | --------------------------- |
+| ![](screenshots/desktop.png) | ![](screenshots/mobile.png) |
 
 ## 特点
 
