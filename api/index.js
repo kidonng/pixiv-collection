@@ -1,12 +1,8 @@
-const querystring = require('querystring')
 const got = require('got')
 const probe = require('probe-image-size')
 
 module.exports = async (req, res) => {
-  const query = querystring.parse(req.url.substring(req.url.indexOf('?') + 1))
-  const reply = data => res.end(JSON.stringify(data))
-
-  if (query.id)
+  if (req.query.id)
     try {
       const parsed = JSON.parse(
         (await got(
@@ -46,15 +42,15 @@ module.exports = async (req, res) => {
             illust.width = res.width
           }
 
-          if (illusts.every(illust => illust.height)) reply(parsed)
+          if (illusts.every(illust => illust.height)) res.json(parsed)
         })
-      }
+      } else res.json(parsed)
     } catch (e) {
-      res.writeHead(500)
-      reply({ error: JSON.stringify(e) })
+      res.status(500)
+      res.json({ error: JSON.stringify(e) })
     }
   else {
-    res.writeHead(400)
-    reply({ error: 'PARAMETER_NOT_FOUND' })
+    res.status(400)
+    res.json({ error: 'PARAMETER_NOT_FOUND' })
   }
 }

@@ -7,10 +7,7 @@
   "routes": [
     {
       "src": "/api/",
-      "headers": {
-        "content-type": "application/json",
-        "cache-control": "s-maxage=604800, max-age=0"
-      }
+      "headers": { "cache-control": "s-maxage=604800, max-age=0" }
     }
   ],
   "alias": "pixiv.now.sh"
