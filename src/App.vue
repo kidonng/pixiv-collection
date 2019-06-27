@@ -51,7 +51,6 @@ import PanelHeader from './components/PanelHeader'
 import PhotoSwipe from './components/PhotoSwipe'
 import gallery from './utils/gallery'
 import ky from 'ky'
-import galite from 'ga-lite'
 
 export default {
   components: {
@@ -69,11 +68,6 @@ export default {
     searchParams: () => new URLSearchParams(location.hash.substring(2))
   },
   mounted() {
-    if (config.googleAnalyticsID) {
-      galite('create', config.googleAnalyticsID, 'auto')
-      galite('send', 'pageview')
-    }
-
     config.collection.forEach(async (illust, index) => {
       // Covert
       if (typeof illust !== 'object') illust = { id: illust }
