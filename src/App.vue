@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import config from '../config'
+import config from './config'
 import AppBar from './components/AppBar'
 import Illust from './components/Illust'
 import PanelHeader from './components/PanelHeader'
