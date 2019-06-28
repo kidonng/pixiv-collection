@@ -23,7 +23,6 @@ Simple pixiv collection showcase.
 - Categorized by illustrators automatically
 - Illustration & illustrator info view
 - Image lazy load
-- Lots of other optimization
 
 ## Usage
 
