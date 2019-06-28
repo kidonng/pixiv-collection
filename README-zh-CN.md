@@ -23,12 +23,11 @@
 - 自动按画师分类
 - 插画和画师信息一览
 - 图片懒加载
-- 大量其他优化
 
 ## 使用方法
 
 1. API 是为 [Now](https://zeit.co/now) 开发的，如果你没有 ZEIT 帐号，免费[注册](https://zeit.co/signup)一个。
-2. Fork 或 clone 本仓库并设置你的[偏好和收藏](./config.js)：
+2. Fork 或 clone 本仓库并设置你的[偏好和收藏](src/config.js)：
 
 ```js
 export default {
