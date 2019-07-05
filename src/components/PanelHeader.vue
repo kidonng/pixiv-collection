@@ -1,11 +1,12 @@
 <template lang="pug">
   v-expansion-panel-header
-    div: v-menu(v-model="menu" offset-x ref="avatar")
-      template(#activator="{}"): v-avatar: v-img.grey.lighten-2(
+    div: v-menu(offset-y :offset-overflow="true" ref="avatar")
+      template(#activator="{ on }"): v-avatar.cur-help: v-img.grey.lighten-2(
+        v-on="on"
         :src="lazySrc"
         :alt="member.user.title"
         aspect-ratio="1"
-        @click.stop="showMemberInfo"
+        @click.stop="!memberInfo && loadMemberInfo()"
       ): template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
         v-progress-circular(indeterminate color="grey lighten-5")
 
@@ -15,7 +16,7 @@
             v-list-item-avatar: img(:src="memberInfo.user.profile_image_urls.small")
             v-list-item-content
               v-list-item-title {{ memberInfo.user.name }}
-              v-list-item-subtitle(v-if="memberInfo.profile.region") {{ memberInfo.profile.region }}
+              v-list-item-subtitle {{ memberInfo.profile.total_illusts + memberInfo.profile.total_manga }} works
             v-list-item-action(v-if="memberInfo.profile.webpage")
               v-btn(
                 :href="memberInfo.profile.webpage"
@@ -59,7 +60,6 @@ export default {
   data: () => ({
     observer: null,
     isIntersecting: false,
-    menu: false,
     memberInfo: null
   }),
   computed: {
@@ -77,13 +77,10 @@ export default {
     this.observer.observe(this.$refs.avatar.$el)
   },
   methods: {
-    async showMemberInfo() {
-      this.menu = true
-
-      if (!this.memberInfo)
-        this.memberInfo = await ky('/api/', {
-          searchParams: { type: 'member', id: this.member.user.id }
-        }).json()
+    async loadMemberInfo() {
+      this.memberInfo = await ky('/api/', {
+        searchParams: { type: 'member', id: this.member.user.id }
+      }).json()
     }
   }
 }
