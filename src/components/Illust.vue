@@ -1,13 +1,13 @@
 <template lang="pug">
   v-flex(xs6 sm4 lg2)
-    v-card(flat :tile="breakpoint('xs')"): v-img.zoom.grey.lighten-2(
+    v-card(flat :tile="breakpoint('xs')"): v-img.grey.lighten-2.cur-zoom-in(
       :src="lazySrc"
       :alt="illust.title"
       aspect-ratio="1"
       max-height="250"
       max-width="250"
       ref="img"
-      @click="gallery(pswp, illust, illust.cover, $refs.img.$el.getBoundingClientRect())"
+      @click="gallery(illust, illust.cover, $refs.img.$el.getBoundingClientRect())"
     )
       v-container.fill-height.pa-1: v-layout.align-end.ma-0(column)
         v-chip(v-if="illust.meta_pages.length > 1" small)
@@ -19,8 +19,8 @@
       template(#placeholder): v-layout(fill-height align-center justify-center ma-0)
         v-progress-circular(indeterminate color="grey lighten-5")
 
-    v-menu(offset-x)
-      template(#activator="{ on }"): .mt-1.font-weight-bold.pointer(
+    v-menu(offset-y :offset-overflow="true")
+      template(#activator="{ on }"): .mt-1.font-weight-bold.cur-help(
         v-on="on"
         :class="{ 'my-2 ml-2': breakpoint('xs') }"
       ) {{ illust.title }}
@@ -39,14 +39,14 @@
             ): v-icon mdi-open-in-new
         v-list-item(v-if="illust.caption")
           v-list-item-icon: v-icon mdi-information
-          v-list-item-content.break(v-html="illust.caption")
+          v-list-item-content.break-all(v-html="illust.caption")
         v-list-item
           v-list-item-icon: v-icon mdi-calendar
           v-list-item-content {{ time }}
         v-list-item
           v-list-item-icon: v-icon mdi-tag
-          v-list-item-content: v-chip-group.mw-100(column)
-            v-chip(v-for="(tag, index) in tags" :key="index" small).text-truncate {{ tag }}
+          v-list-item-content: v-chip-group.max-width-100(column)
+            v-chip.text-truncate(v-for="tag in tags" :key="tag" :title="tag") {{ tag }}
 </template>
 
 <script>
@@ -57,10 +57,6 @@ export default {
   props: {
     illust: {
       type: Object,
-      required: true
-    },
-    pswp: {
-      type: Element,
       required: true
     }
   },
@@ -81,15 +77,8 @@ export default {
       return time(this.illust.create_date, navigator).format('lll')
     },
     tags() {
-      let tags = []
-      this.illust.tags.forEach(tag => {
-        if (tag.name.includes('/') && !tag.name.endsWith('/'))
-          [...tag.name.split('/')].forEach(
-            tag => !tags.includes(tag) && tags.push(tag)
-          )
-        else !tags.includes(tag.name) && tags.push(tag.name)
-      })
-      return tags
+      // Remove duplicate (https://stackoverflow.com/a/9229821)
+      return [...new Set(this.illust.tags.map(tag => tag.name))]
     }
   },
   mounted() {
@@ -108,16 +97,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.zoom
-  cursor: zoom-in
-
-.pointer
-  cursor: pointer
-
-.break
+.break-all
   word-break: break-all
 
-.mw-100
+.max-width-100
   max-width: 100%
 
 .v-menu--inline

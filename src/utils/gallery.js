@@ -3,7 +3,7 @@ import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default'
 import galite from 'ga-lite'
 
-export default (pswpElement, illust, index, rect) => {
+export default (illust, index, rect) => {
   if (config.googleAnalyticsID)
     galite('send', {
       hitType: 'event',
@@ -42,17 +42,23 @@ export default (pswpElement, illust, index, rect) => {
     barsSize: { top: 0, bottom: 0 },
     loadingIndicatorDelay: 0,
     captionEl: false,
-    shareEl: false
+    shareEl: false,
+    clickToCloseNonZoomable: false
   }
 
-  const pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options)
+  const pswp = new PhotoSwipe(
+    document.querySelector('.pswp'),
+    PhotoSwipeUI_Default,
+    items,
+    options
+  )
   pswp.listen(
     'initialZoomIn',
     () =>
       (document.title = `${illust.title} / ${illust.user.name} - ${config.title}`)
   )
   pswp.listen('destroy', () =>
-    // The title displayed in Chrome (other browsers not tested) will revert if there's no delay
+    // Title in Chrome will revert without the timeout
     setTimeout(() => (document.title = config.title), 50)
   )
   pswp.init()

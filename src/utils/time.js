@@ -2,13 +2,11 @@ import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 
 import zh_CN from 'dayjs/locale/zh-cn'
-import ja from 'dayjs/locale/ja'
 
 dayjs.extend(LocalizedFormat)
 
 const languages = {
-  'zh-CN': zh_CN,
-  ja
+  'zh-CN': zh_CN
 }
 
 export default (time, navigator) => {

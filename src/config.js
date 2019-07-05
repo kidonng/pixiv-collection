@@ -1,14 +1,14 @@
 export default {
-  title: "kidonng's pixiv Collection",
+  title: "Kid's pixiv collection",
   links: [
     {
-      title: 'Visit my homepage',
+      title: 'Homepage',
       icon: 'mdi-home',
       href: 'https://kidonng.me/'
     },
     {
-      title: 'View on GitHub',
-      icon: 'mdi-code-tags',
+      title: 'GitHub',
+      icon: 'mdi-github-circle',
       href: 'https://github.com/kidonng/pixiv-collection'
     }
   ],

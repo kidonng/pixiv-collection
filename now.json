@@ -10,5 +10,6 @@
       "headers": { "cache-control": "s-maxage=604800, max-age=0" }
     }
   ],
+  "regions": ["sin1"],
   "alias": "pixiv.now.sh"
 }
