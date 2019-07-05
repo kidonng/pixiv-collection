@@ -6,8 +6,17 @@
   ],
   "routes": [
     {
-      "src": "/api/",
+      "src": "^/api/.*",
       "headers": { "cache-control": "s-maxage=604800, max-age=0" }
+    },
+    {
+      "src": "^/((js|css)/.*|favicon.ico)",
+      "headers": { "cache-control": "max-age=31536000, immutable" }
+    },
+    {
+      "src": "/.+",
+      "status": 301,
+      "headers": { "location": "https://pixiv.now.sh/" }
     }
   ],
   "regions": ["sin1"],
