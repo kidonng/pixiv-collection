@@ -17,14 +17,12 @@
             class="pswp__button pswp__button--close"
             title="Close (Esc)"
           ></button>
-          <button
-            class="pswp__button pswp__button--share"
-            title="Links"
-          ></button>
+
           <button
             class="pswp__button pswp__button--fs"
             title="Fullscreen"
           ></button>
+
           <button
             class="pswp__button pswp__button--zoom"
             title="Zoom in/out"
@@ -39,20 +37,14 @@
           </div>
         </div>
 
-        <div
-          class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"
-        >
-          <div class="pswp__share-tooltip"></div>
-        </div>
-
         <button
           class="pswp__button pswp__button--arrow--left"
-          title="Previous (Left)"
+          title="Previous (Arrow Left)"
         ></button>
 
         <button
           class="pswp__button pswp__button--arrow--right"
-          title="Next (Right)"
+          title="Next (Arrow Right)"
         ></button>
       </div>
     </div>
@@ -63,12 +55,12 @@
 @import '~photoswipe/dist/photoswipe.css'
 @import '~photoswipe/dist/default-skin/default-skin.css'
 
+.pswp__top-bar
+  background: none
+
 .theme--light
   .pswp__bg
     background: #fff
-
-  .pswp__top-bar
-    background: none
 
   .pswp__counter,
   .pswp__preloader,

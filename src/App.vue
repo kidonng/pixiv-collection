@@ -2,9 +2,8 @@
   v-app
     AppBar
 
-    v-content: v-container(
-      fluid
-      px-0
+    v-content(:class="{ 'cur-wait': loading }"): v-container(
+      :px-0="breakpoint('xs')"
       :fill-height="loading"
     )
       v-layout(
@@ -17,30 +16,29 @@
           xs12
           subtitle-1
           text-xs-center
-        ) Loading
+        ) Loading collection
         v-flex(xs6): v-progress-linear(
           indeterminate
           rounded
           height="6"
         )
 
-      v-expansion-panels(v-else popout): v-expansion-panel.fix-panel(
+      v-expansion-panels(v-else): v-expansion-panel(
         v-for="member in members"
         :key="member.user.id"
       )
         PanelHeader(:member="member")
 
-        v-expansion-panel-content(:class="{ 'px-0-child': breakpoint('xs') }"): v-container(
+        v-expansion-panel-content(:class="{ 'px-0-child-div': breakpoint('xs') }"): v-container(
           :grid-list-xl="!breakpoint('xs')"
           px-0
         ): v-layout(wrap): Illust(
           v-for="illust in member.illusts"
           :key="illust.id"
           :illust="illust"
-          :pswp="$refs.pswp.$el"
         )
 
-      PhotoSwipe(ref="pswp")
+      PhotoSwipe
 </template>
 
 <script>
@@ -60,16 +58,28 @@ export default {
     PhotoSwipe
   },
   data: () => ({
-    config,
     members: [],
-    loading: true
+    searchParams: new URLSearchParams(location.hash.substring(2))
   }),
   computed: {
-    searchParams: () => new URLSearchParams(location.hash.substring(2))
+    loading() {
+      return (
+        this.members
+          .map(member => member.illusts.length)
+          .reduce((sum, current) => sum + current, 0) !==
+        config.collection.length
+      )
+    }
   },
   mounted() {
-    config.collection.forEach(async (illust, index) => {
-      // Covert
+    // Dark theme
+    const dark = matchMedia('(prefers-color-scheme: dark)')
+    dark.addListener(e => (this.$vuetify.theme.dark = e.matches))
+    this.$vuetify.theme.dark = dark.matches
+
+    // Process collection
+    config.collection.forEach(async illust => {
+      // Covert ID and link
       if (typeof illust !== 'object') illust = { id: illust }
       if (typeof illust.id === 'string')
         illust.id = [new URL(illust.id).searchParams.get('illust_id')]
@@ -85,7 +95,6 @@ export default {
         // Copy for cover index
         const pages = [...res.meta_pages]
 
-        // Filter
         if (illust.pages)
           res.meta_pages = res.meta_pages.filter((page, index) =>
             illust.exclude
@@ -97,20 +106,13 @@ export default {
           res.cover = res.meta_pages.indexOf(pages[illust.cover - 1])
       }
 
-      // Resume
+      // Resume gallery view
       if (res.id === parseInt(this.searchParams.get('gid')))
-        gallery(
-          this.$refs.pswp.$el,
-          res,
-          parseInt(this.searchParams.get('pid')) - 1
-        )
+        gallery(res, parseInt(this.searchParams.get('pid')) - 1)
 
-      // Save
       const member = this.members.find(member => member.user.id === res.user.id)
       if (member) member.illusts.push(res)
       else this.members.push({ illusts: [res], user: res.user })
-
-      if (index + 1 === config.collection.length) this.loading = false
     })
   },
   methods: {
@@ -125,11 +127,16 @@ export default {
 a
   text-decoration: none
 
-.px-0-child > div
+.cur-wait
+  cursor: wait
+
+.cur-help
+  cursor: help
+
+.cur-zoom-in
+  cursor: zoom-in
+
+.px-0-child-div > div
   padding-right: 0
   padding-left: 0
-
-// Temp fix https://github.com/vuetifyjs/vuetify/issues/7524
-.fix-panel
-  flex: 1 0 100%
 </style>
