@@ -1,44 +1,41 @@
-<template lang="pug">
-  v-app
-    AppBar
+<template>
+  <v-app>
+    <AppBar />
 
-    v-content(:class="{ 'cur-wait': loading }"): v-container(
-      :px-0="breakpoint('xs')"
-      :fill-height="loading"
-    )
-      v-layout(
-        v-if="loading"
-        align-content-center
-        justify-center
-        wrap
-      )
-        v-flex(
-          xs12
-          subtitle-1
-          text-xs-center
-        ) Loading collection
-        v-flex(xs6): v-progress-linear(
-          indeterminate
-          rounded
-          height="6"
-        )
+    <v-content :class="{ 'cur-wait': loading }">
+      <v-container :px-0="breakpoint('xs')" :fill-height="loading">
+        <v-layout v-if="loading" align-content-center justify-center wrap>
+          <v-flex xs12 subtitle-1 text-xs-center>
+            Loading collection
+          </v-flex>
+          <v-flex xs6>
+            <v-progress-linear indeterminate rounded height="6" />
+          </v-flex>
+        </v-layout>
 
-      v-expansion-panels(v-else): v-expansion-panel(
-        v-for="member in members"
-        :key="member.user.id"
-      )
-        PanelHeader(:member="member")
+        <v-expansion-panels v-else>
+          <v-expansion-panel v-for="member in members" :key="member.user.id">
+            <PanelHeader :member="member" />
+            <v-expansion-panel-content
+              :class="{ 'px-0-child-div': breakpoint('xs') }"
+            >
+              <v-container :grid-list-xl="!breakpoint('xs')" px-0>
+                <v-layout wrap>
+                  <Illust
+                    v-for="illust in member.illusts"
+                    :key="illust.id"
+                    :illust="illust"
+                  />
+                </v-layout>
+              </v-container>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
 
-        v-expansion-panel-content(:class="{ 'px-0-child-div': breakpoint('xs') }"): v-container(
-          :grid-list-xl="!breakpoint('xs')"
-          px-0
-        ): v-layout(wrap): Illust(
-          v-for="illust in member.illusts"
-          :key="illust.id"
-          :illust="illust"
-        )
-
-      PhotoSwipe
+        <PhotoSwipe />
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
