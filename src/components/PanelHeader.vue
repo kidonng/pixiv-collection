@@ -39,16 +39,16 @@
                 />
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title>{{
-                  memberInfo.user.name
-                }}</v-list-item-title>
-                <v-list-item-subtitle
-                  >{{
+                <v-list-item-title>
+                  {{ memberInfo.user.name }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{
                     memberInfo.profile.total_illusts +
                       memberInfo.profile.total_manga
                   }}
-                  works</v-list-item-subtitle
-                >
+                  works
+                </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action v-if="memberInfo.profile.webpage">
                 <v-btn

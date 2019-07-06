@@ -1,7 +1,11 @@
 <template>
   <v-app-bar app>
-    <v-toolbar-title>{{ config.title }}</v-toolbar-title>
+    <v-toolbar-title>
+      {{ config.title }}
+    </v-toolbar-title>
+
     <v-spacer />
+
     <v-tooltip
       v-for="link in config.links"
       :key="link.title"
@@ -19,6 +23,7 @@
           <v-icon>{{ link.icon }}</v-icon>
         </v-btn>
       </template>
+
       <span>{{ link.title }}</span>
     </v-tooltip>
   </v-app-bar>

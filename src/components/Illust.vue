@@ -17,7 +17,9 @@
           <v-layout class="align-end ma-0" column>
             <v-chip v-if="illust.meta_pages.length > 1" small>
               <v-icon left size="16">mdi-image-multiple</v-icon>
-              <div class="font-weight-bold">{{ illust.meta_pages.length }}</div>
+              <div class="font-weight-bold">
+                {{ illust.meta_pages.length }}
+              </div>
             </v-chip>
             <v-spacer />
             <v-icon v-if="illust.favorite" color="red">mdi-heart</v-icon>
@@ -51,9 +53,9 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>{{ illust.title }}</v-list-item-title>
-              <v-list-item-subtitle>{{
-                illust.user.name
-              }}</v-list-item-subtitle>
+              <v-list-item-subtitle>
+                {{ illust.user.name }}
+              </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-btn
