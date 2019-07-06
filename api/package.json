@@ -1,9 +1,12 @@
 {
-  "name": "pixiv-api",
+  "name": "pixiv-api-wrapper",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "got": "^9.6.0",
     "probe-image-size": "^4.0.0"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
