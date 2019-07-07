@@ -17,7 +17,7 @@
     "vuetify": "^2.0.0-beta.5"
   },
   "devDependencies": {
-    "@vue/cli-service": "^3.9.0",
+    "@vue/cli-service": "^3.9.2",
     "prettier": "^1.18.2",
     "sass": "^1.22.3",
     "sass-loader": "^7.1.0",
