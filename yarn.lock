@@ -4967,10 +4967,10 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
-probe-image-size@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/probe-image-size/download/probe-image-size-4.0.0.tgz#d35b71759e834bcf580ea9f18ec8b9265c0977eb"
-  integrity sha1-01txdZ6DS89YDqnxjsi5JlwJd+s=
+probe-image-size@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-4.0.1.tgz#f8e7281ef04d5b7fdbef096b18f87f42599c71bb"
+  integrity sha512-6np7V6Ie/i5y/H2uRLP3ZmpMA0Yn6I+SnrP+tcZYUR6qhW2GQuuo72bRtCn9uN3xC1TfvjSgqdjtd1PfokWrRQ==
   dependencies:
     any-promise "^1.3.0"
     deepmerge "^2.0.1"
