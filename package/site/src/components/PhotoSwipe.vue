@@ -52,8 +52,8 @@
 </template>
 
 <style lang="sass">
-@import '~photoswipe/dist/photoswipe.css'
-@import '~photoswipe/dist/default-skin/default-skin.css'
+@import '../../../../node_modules/photoswipe/dist/photoswipe.css'
+@import '../../../../node_modules/photoswipe/dist/default-skin/default-skin.css'
 
 .pswp__top-bar
   background: none
