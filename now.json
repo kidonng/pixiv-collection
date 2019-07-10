@@ -1,12 +1,17 @@
 {
   "version": 2,
   "builds": [
-    { "src": "package.json", "use": "@now/static-build" },
-    { "src": "api/index.js", "use": "@now/node" }
+    {
+      "src": "package.json",
+      "use": "@now/static-build",
+      "config": { "distDir": "package/site/dist" }
+    },
+    { "src": "package/api/index.js", "use": "@now/node" }
   ],
   "routes": [
     {
       "src": "^/api/.*",
+      "dest": "package/api/index.js",
       "headers": { "cache-control": "s-maxage=604800, max-age=0" }
     },
     {
