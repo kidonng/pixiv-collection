@@ -39,13 +39,14 @@
 </template>
 
 <script>
-import config from './config'
+import { value, computed, onMounted } from 'vue-function-api'
+import ky from 'ky'
 import AppBar from './components/AppBar'
 import Illust from './components/Illust'
 import PanelHeader from './components/PanelHeader'
 import PhotoSwipe from './components/PhotoSwipe'
 import gallery from './utils/gallery'
-import ky from 'ky'
+import config from '../config'
 
 export default {
   components: {
@@ -54,67 +55,76 @@ export default {
     PanelHeader,
     PhotoSwipe
   },
-  data: () => ({
-    members: [],
-    searchParams: new URLSearchParams(location.hash.substring(2))
-  }),
-  computed: {
-    loading() {
-      return (
-        this.members
-          .map(member => member.illusts.length)
-          .reduce((sum, current) => sum + current, 0) !==
-        config.collection.length
-      )
-    }
-  },
-  mounted() {
-    // Dark theme
-    const dark = matchMedia('(prefers-color-scheme: dark)')
-    dark.addListener(e => (this.$vuetify.theme.dark = e.matches))
-    this.$vuetify.theme.dark = dark.matches
+  setup(props, context) {
+    const members = value([])
 
-    // Process collection
-    config.collection.forEach(async illust => {
-      // Covert ID and link
-      if (typeof illust !== 'object') illust = { id: illust }
-      if (typeof illust.id === 'string')
-        illust.id = [new URL(illust.id).searchParams.get('illust_id')]
+    const loading = computed(() => {
+      const sum = members.value
+        .map(member => member.illusts.length)
+        .reduce((sum, current) => sum + current, 0)
 
-      // Process
-      let res = (await ky('/api/', {
-        searchParams: { id: illust.id }
-      }).json()).illust
-
-      if (illust.favorite) res.favorite = true
-
-      if (res.meta_pages.length) {
-        // Copy for cover index
-        const pages = [...res.meta_pages]
-
-        if (illust.pages)
-          res.meta_pages = res.meta_pages.filter((page, index) =>
-            illust.exclude
-              ? !illust.pages.includes(index + 1)
-              : illust.pages.includes(index + 1)
-          )
-
-        if (illust.cover)
-          res.cover = res.meta_pages.indexOf(pages[illust.cover - 1])
-      }
-
-      // Resume gallery view
-      if (res.id === parseInt(this.searchParams.get('gid')))
-        gallery(res, parseInt(this.searchParams.get('pid')) - 1)
-
-      const member = this.members.find(member => member.user.id === res.user.id)
-      if (member) member.illusts.push(res)
-      else this.members.push({ illusts: [res], user: res.user })
+      return sum !== config.collection.length
     })
-  },
-  methods: {
-    breakpoint(name) {
-      return this.$vuetify.breakpoint.name === name
+
+    const vuetify = context.root.$vuetify
+    const breakpoint = name => vuetify.breakpoint.name === name
+
+    onMounted(() => {
+      // Dark theme
+      const dark = window.matchMedia('(prefers-color-scheme: dark)')
+      vuetify.theme.dark = dark.matches
+      dark.addEventListener('change', e => (vuetify.theme.dark = e.matches))
+
+      const searchParams = new URLSearchParams(location.hash.substring(2))
+
+      // Process collection
+      config.collection.forEach(async illust => {
+        // Covert ID and link
+        if (typeof illust !== 'object') illust = { id: illust }
+        if (typeof illust.id === 'string')
+          illust.id = [new URL(illust.id).searchParams.get('illust_id')]
+
+        try {
+          let res = (await ky('/api/', {
+            searchParams: { id: illust.id }
+          }).json()).illust
+
+          if (illust.favorite) res.favorite = true
+
+          if (res.meta_pages.length) {
+            // Copy for cover index
+            const pages = [...res.meta_pages]
+
+            if (illust.pages)
+              res.meta_pages = res.meta_pages.filter((page, index) =>
+                illust.exclude
+                  ? !illust.pages.includes(index + 1)
+                  : illust.pages.includes(index + 1)
+              )
+
+            if (illust.cover)
+              res.cover = res.meta_pages.indexOf(pages[illust.cover - 1])
+          }
+
+          // Resume gallery view
+          if (res.id === parseInt(searchParams.get('gid')))
+            gallery(res, parseInt(searchParams.get('pid')) - 1)
+
+          const member = members.value.find(
+            member => member.user.id === res.user.id
+          )
+          if (member) member.illusts.push(res)
+          else members.value.push({ illusts: [res], user: res.user })
+        } catch {
+          console.error('Failed to load illust')
+        }
+      })
+    })
+
+    return {
+      members,
+      loading,
+      breakpoint
     }
   }
 }

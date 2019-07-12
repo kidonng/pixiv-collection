@@ -1,13 +1,8 @@
-import config from './config'
 import Vue from 'vue'
+import './plugins/function-api'
 import vuetify from './plugins/vuetify'
-import galite from 'ga-lite'
+import './plugins/analytics'
 import App from './App'
-
-if (config.googleAnalyticsID) {
-  galite('create', config.googleAnalyticsID, 'auto')
-  galite('send', 'pageview')
-}
 
 new Vue({
   vuetify,

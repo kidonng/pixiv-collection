@@ -1,17 +1,19 @@
 <template>
   <v-flex xs6 sm4 lg2>
-    <v-card flat :tile="breakpoint('xs')">
-      <v-img
-        class="grey lighten-2 cur-zoom-in"
-        :src="lazySrc"
+    <v-card
+      flat
+      :tile="breakpoint('xs')"
+      @click="
+        gallery(illust, illust.cover, $refs.img.$el.getBoundingClientRect())
+      "
+    >
+      <LazyImg
+        class="cur-zoom-in"
+        :src="src"
         :alt="illust.title"
-        aspect-ratio="1"
         max-height="250"
         max-width="250"
         ref="img"
-        @click="
-          gallery(illust, illust.cover, $refs.img.$el.getBoundingClientRect())
-        "
       >
         <v-container class="fill-height pa-1">
           <v-layout class="align-end ma-0" column>
@@ -25,16 +27,7 @@
             <v-icon v-if="illust.favorite" color="red">mdi-heart</v-icon>
           </v-layout>
         </v-container>
-
-        <template #placeholder>
-          <v-layout fill-height align-center justify-center ma-0>
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-layout>
-        </template>
-      </v-img>
+      </LazyImg>
     </v-card>
 
     <v-menu offset-y :offset-overflow="true">
@@ -81,7 +74,7 @@
               <v-icon>mdi-calendar</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              {{ time }}
+              {{ date }}
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
@@ -108,6 +101,7 @@
 </template>
 
 <script>
+import LazyImg from './LazyImg'
 import gallery from '../utils/gallery'
 import time from '../utils/time'
 
@@ -118,38 +112,27 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    observer: null,
-    isIntersecting: false
-  }),
-  computed: {
-    lazySrc() {
-      if (this.isIntersecting) this.observer.disconnect()
-      return this.isIntersecting
-        ? this.illust.meta_pages.length
-          ? this.illust.meta_pages[this.illust.cover || 0].image_urls.thumb
-          : this.illust.image_urls.thumb
-        : ''
-    },
-    time() {
-      return time(this.illust.create_date, navigator).format('lll')
-    },
-    tags() {
-      // Remove duplicate (https://stackoverflow.com/a/9229821)
-      return [...new Set(this.illust.tags.map(tag => tag.name))]
+  components: { LazyImg },
+  setup(props, context) {
+    const src = props.illust.meta_pages.length
+      ? props.illust.meta_pages[props.illust.cover || 0].image_urls.thumb
+      : props.illust.image_urls.thumb
+
+    // Remove duplicate tags (https://stackoverflow.com/a/9229821)
+    const tags = [...new Set(props.illust.tags.map(tag => tag.name))]
+
+    const date = time(props.illust.create_date).format('lll')
+
+    const vuetify = context.root.$vuetify
+    const breakpoint = name => vuetify.breakpoint.name === name
+
+    return {
+      src,
+      tags,
+      date,
+      breakpoint,
+      gallery
     }
-  },
-  mounted() {
-    this.observer = new IntersectionObserver(
-      entries => (this.isIntersecting = entries[0].isIntersecting)
-    )
-    this.observer.observe(this.$refs.img.$el)
-  },
-  methods: {
-    breakpoint(name) {
-      return this.$vuetify.breakpoint.name === name
-    },
-    gallery
   }
 }
 </script>
