@@ -27,7 +27,7 @@ Simple pixiv collection showcase.
 ## Usage
 
 1. The APIs are developed for [Now](https://zeit.co/now) and if you don't have a ZEIT account, [register](https://zeit.co/signup) one for free.
-2. Fork/clone the repo and configure your [preferences and collection](package/site/src/config.js):
+2. Fork/clone the repo and configure your [preferences and collection](package/site/config.js):
 
 ```js
 export default {

@@ -1,4 +1,4 @@
-import config from './config'
+import config from '../config'
 import Vue from 'vue'
 import vuetify from './plugins/vuetify'
 import galite from 'ga-lite'
