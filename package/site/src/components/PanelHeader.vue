@@ -1,29 +1,13 @@
 <template>
   <v-expansion-panel-header>
     <div>
-      <v-menu offset-y :offset-overflow="true" ref="avatar">
-        <template #activator="{ on }">
-          <v-avatar class="cur-help">
-            <v-img
-              class="grey lighten-2"
-              v-on="on"
-              :src="lazySrc"
-              :alt="member.user.title"
-              aspect-ratio="1"
-              @click.stop="!memberInfo && loadMemberInfo()"
-            >
-              <template #placeholder>
-                <v-layout fill-height align-center justify-center ma-0>
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  ></v-progress-circular>
-                </v-layout>
-              </template>
-            </v-img>
-          </v-avatar>
-        </template>
-
+      <v-avatar class="cur-help" @click.stop="showMemberInfo">
+        <LazyImg
+          :src="member.user.profile_image_urls.small"
+          :alt="member.user.title"
+        />
+      </v-avatar>
+      <v-menu v-model="menu" :position-x="x" :position-y="y">
         <v-card
           min-width="200"
           min-height="150"
@@ -111,7 +95,9 @@
 </template>
 
 <script>
+import { value } from 'vue-function-api'
 import ky from 'ky'
+import LazyImg from './LazyImg'
 
 export default {
   props: {
@@ -120,30 +106,31 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    observer: null,
-    isIntersecting: false,
-    memberInfo: null
-  }),
-  computed: {
-    lazySrc() {
-      if (this.isIntersecting) this.observer.disconnect()
-      return this.isIntersecting
-        ? this.member.user.profile_image_urls.small
-        : ''
+  components: { LazyImg },
+  setup(props) {
+    const menu = value(false)
+    const x = value(null)
+    const y = value(null)
+
+    const memberInfo = value(null)
+
+    const showMemberInfo = async e => {
+      menu.value = true
+      x.value = e.clientX
+      y.value = e.clientY
+
+      if (!memberInfo.value)
+        memberInfo.value = await ky('/api/', {
+          searchParams: { type: 'member', id: props.member.user.id }
+        }).json()
     }
-  },
-  mounted() {
-    this.observer = new IntersectionObserver(
-      entries => (this.isIntersecting = entries[0].isIntersecting)
-    )
-    this.observer.observe(this.$refs.avatar.$el)
-  },
-  methods: {
-    async loadMemberInfo() {
-      this.memberInfo = await ky('/api/', {
-        searchParams: { type: 'member', id: this.member.user.id }
-      }).json()
+
+    return {
+      menu,
+      x,
+      y,
+      memberInfo,
+      showMemberInfo
     }
   }
 }

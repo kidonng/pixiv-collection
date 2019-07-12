@@ -9,7 +9,7 @@ const languages = {
   'zh-CN': zh_CN
 }
 
-export default (time, navigator) => {
+export default time => {
   const lang = navigator.languages.find(lang =>
     Object.keys(languages).includes(lang)
   )

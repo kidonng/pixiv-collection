@@ -12,6 +12,7 @@
     "ky": "^0.11.1",
     "photoswipe": "^4.1.3",
     "vue": "^2.6.10",
+    "vue-function-api": "^2.0.6",
     "vuetify": "^2.0.0-beta.7"
   },
   "devDependencies": {
