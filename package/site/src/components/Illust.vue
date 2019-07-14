@@ -81,7 +81,7 @@
               <v-icon>mdi-calendar</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              {{ time }}
+              {{ date }}
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import { value, computed, onMounted } from 'vue-function-api'
 import gallery from '../utils/gallery'
 import time from '../utils/time'
 
@@ -118,38 +119,36 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    observer: null,
-    isIntersecting: false
-  }),
-  computed: {
-    lazySrc() {
-      if (this.isIntersecting) this.observer.disconnect()
-      return this.isIntersecting
-        ? this.illust.meta_pages.length
-          ? this.illust.meta_pages[this.illust.cover || 0].image_urls.thumb
-          : this.illust.image_urls.thumb
-        : ''
-    },
-    time() {
-      return time(this.illust.create_date, navigator).format('lll')
-    },
-    tags() {
-      // Remove duplicate (https://stackoverflow.com/a/9229821)
-      return [...new Set(this.illust.tags.map(tag => tag.name))]
-    }
-  },
-  mounted() {
-    this.observer = new IntersectionObserver(
-      entries => (this.isIntersecting = entries[0].isIntersecting)
+  setup(props, context) {
+    // Lazy load
+    const isIntersecting = value(false)
+    const observer = new IntersectionObserver(
+      entries => (isIntersecting.value = entries[0].isIntersecting)
     )
-    this.observer.observe(this.$refs.img.$el)
-  },
-  methods: {
-    breakpoint(name) {
-      return this.$vuetify.breakpoint.name === name
-    },
-    gallery
+    const lazySrc = computed(() => {
+      if (isIntersecting.value) observer.disconnect()
+      return isIntersecting.value
+        ? props.illust.meta_pages.length
+          ? props.illust.meta_pages[props.illust.cover || 0].image_urls.thumb
+          : props.illust.image_urls.thumb
+        : ''
+    })
+    onMounted(() => observer.observe(context.refs.img.$el))
+
+    // Remove duplicate tags (https://stackoverflow.com/a/9229821)
+    const tags = [...new Set(props.illust.tags.map(tag => tag.name))]
+
+    const date = time(props.illust.create_date, navigator).format('lll')
+
+    const breakpoint = name => context.root.$vuetify.breakpoint.name === name
+
+    return {
+      lazySrc,
+      tags,
+      date,
+      breakpoint,
+      gallery
+    }
   }
 }
 </script>

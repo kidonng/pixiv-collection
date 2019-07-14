@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panel-header>
     <div>
-      <v-menu offset-y :offset-overflow="true" ref="avatar">
+      <v-menu offset-y :offset-overflow="true" ref="img">
         <template #activator="{ on }">
           <v-avatar class="cur-help">
             <v-img
@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import { value, computed, onMounted } from 'vue-function-api'
 import ky from 'ky'
 
 export default {
@@ -120,30 +121,30 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    observer: null,
-    isIntersecting: false,
-    memberInfo: null
-  }),
-  computed: {
-    lazySrc() {
-      if (this.isIntersecting) this.observer.disconnect()
-      return this.isIntersecting
-        ? this.member.user.profile_image_urls.small
-        : ''
-    }
-  },
-  mounted() {
-    this.observer = new IntersectionObserver(
-      entries => (this.isIntersecting = entries[0].isIntersecting)
+  setup(props, context) {
+    // Lazy load
+    const isIntersecting = value(false)
+    const observer = new IntersectionObserver(
+      entries => (isIntersecting.value = entries[0].isIntersecting)
     )
-    this.observer.observe(this.$refs.avatar.$el)
-  },
-  methods: {
-    async loadMemberInfo() {
-      this.memberInfo = await ky('/api/', {
-        searchParams: { type: 'member', id: this.member.user.id }
-      }).json()
+    const lazySrc = computed(() => {
+      if (isIntersecting.value) observer.disconnect()
+      return isIntersecting.value
+        ? props.member.user.profile_image_urls.small
+        : ''
+    })
+    onMounted(() => observer.observe(context.refs.img.$el))
+
+    const memberInfo = value(null)
+    const loadMemberInfo = async () =>
+      (memberInfo.value = await ky('/api/', {
+        searchParams: { type: 'member', id: props.member.user.id }
+      }).json())
+
+    return {
+      lazySrc,
+      memberInfo,
+      loadMemberInfo
     }
   }
 }
