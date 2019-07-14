@@ -6,6 +6,15 @@
 
     <v-spacer />
 
+    <v-tooltip bottom attach="#app">
+      <template #activator="{ on }">
+        <v-btn v-on="on" @click="toggleDarkTheme" icon>
+          <v-icon>mdi-theme-light-dark</v-icon>
+        </v-btn>
+      </template>
+
+      <span>Toggle Dark Theme</span>
+    </v-tooltip>
     <v-tooltip
       v-for="link in config.links"
       :key="link.title"
@@ -33,9 +42,13 @@
 import config from '../../config'
 
 export default {
-  setup() {
+  setup(props, context) {
+    const vuetify = context.root.$vuetify
+    const toggleDarkTheme = () => (vuetify.theme.dark = !vuetify.theme.dark)
+
     return {
-      config
+      config,
+      toggleDarkTheme
     }
   }
 }
