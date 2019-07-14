@@ -84,37 +84,40 @@ export default {
         if (typeof illust.id === 'string')
           illust.id = [new URL(illust.id).searchParams.get('illust_id')]
 
-        // Process
-        let res = (await ky('/api/', {
-          searchParams: { id: illust.id }
-        }).json()).illust
+        try {
+          let res = (await ky('/api/', {
+            searchParams: { id: illust.id }
+          }).json()).illust
 
-        if (illust.favorite) res.favorite = true
+          if (illust.favorite) res.favorite = true
 
-        if (res.meta_pages.length) {
-          // Copy for cover index
-          const pages = [...res.meta_pages]
+          if (res.meta_pages.length) {
+            // Copy for cover index
+            const pages = [...res.meta_pages]
 
-          if (illust.pages)
-            res.meta_pages = res.meta_pages.filter((page, index) =>
-              illust.exclude
-                ? !illust.pages.includes(index + 1)
-                : illust.pages.includes(index + 1)
-            )
+            if (illust.pages)
+              res.meta_pages = res.meta_pages.filter((page, index) =>
+                illust.exclude
+                  ? !illust.pages.includes(index + 1)
+                  : illust.pages.includes(index + 1)
+              )
 
-          if (illust.cover)
-            res.cover = res.meta_pages.indexOf(pages[illust.cover - 1])
+            if (illust.cover)
+              res.cover = res.meta_pages.indexOf(pages[illust.cover - 1])
+          }
+
+          // Resume gallery view
+          if (res.id === parseInt(searchParams.get('gid')))
+            gallery(res, parseInt(searchParams.get('pid')) - 1)
+
+          const member = members.value.find(
+            member => member.user.id === res.user.id
+          )
+          if (member) member.illusts.push(res)
+          else members.value.push({ illusts: [res], user: res.user })
+        } catch {
+          console.error('Failed to load illust')
         }
-
-        // Resume gallery view
-        if (res.id === parseInt(searchParams.get('gid')))
-          gallery(res, parseInt(searchParams.get('pid')) - 1)
-
-        const member = members.value.find(
-          member => member.user.id === res.user.id
-        )
-        if (member) member.illusts.push(res)
-        else members.value.push({ illusts: [res], user: res.user })
       })
     })
 

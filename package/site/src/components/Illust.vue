@@ -1,6 +1,12 @@
 <template>
   <v-flex xs6 sm4 lg2>
-    <v-card flat :tile="breakpoint('xs')">
+    <v-card
+      flat
+      :tile="breakpoint('xs')"
+      @click="
+        gallery(illust, illust.cover, $refs.img.$el.getBoundingClientRect())
+      "
+    >
       <LazyImg
         class="cur-zoom-in"
         :src="src"
@@ -8,9 +14,6 @@
         max-height="250"
         max-width="250"
         ref="img"
-        @click="
-          gallery(illust, illust.cover, $refs.img.$el.getBoundingClientRect())
-        "
       >
         <v-container class="fill-height pa-1">
           <v-layout class="align-end ma-0" column>
