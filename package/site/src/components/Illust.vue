@@ -1,11 +1,10 @@
 <template>
   <v-flex xs6 sm4 lg2>
     <v-card flat :tile="breakpoint('xs')">
-      <v-img
-        class="grey lighten-2 cur-zoom-in"
-        :src="lazySrc"
+      <LazyImg
+        class="cur-zoom-in"
+        :src="src"
         :alt="illust.title"
-        aspect-ratio="1"
         max-height="250"
         max-width="250"
         ref="img"
@@ -25,16 +24,7 @@
             <v-icon v-if="illust.favorite" color="red">mdi-heart</v-icon>
           </v-layout>
         </v-container>
-
-        <template #placeholder>
-          <v-layout fill-height align-center justify-center ma-0>
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-layout>
-        </template>
-      </v-img>
+      </LazyImg>
     </v-card>
 
     <v-menu offset-y :offset-overflow="true">
@@ -108,7 +98,7 @@
 </template>
 
 <script>
-import { value, computed, onMounted } from 'vue-function-api'
+import LazyImg from './LazyImg'
 import gallery from '../utils/gallery'
 import time from '../utils/time'
 
@@ -119,21 +109,11 @@ export default {
       required: true
     }
   },
+  components: { LazyImg },
   setup(props, context) {
-    // Lazy load
-    const isIntersecting = value(false)
-    const observer = new IntersectionObserver(
-      entries => (isIntersecting.value = entries[0].isIntersecting)
-    )
-    const lazySrc = computed(() => {
-      if (isIntersecting.value) observer.disconnect()
-      return isIntersecting.value
-        ? props.illust.meta_pages.length
-          ? props.illust.meta_pages[props.illust.cover || 0].image_urls.thumb
-          : props.illust.image_urls.thumb
-        : ''
-    })
-    onMounted(() => observer.observe(context.refs.img.$el))
+    const src = props.illust.meta_pages.length
+      ? props.illust.meta_pages[props.illust.cover || 0].image_urls.thumb
+      : props.illust.image_urls.thumb
 
     // Remove duplicate tags (https://stackoverflow.com/a/9229821)
     const tags = [...new Set(props.illust.tags.map(tag => tag.name))]
@@ -144,7 +124,7 @@ export default {
     const breakpoint = name => vuetify.breakpoint.name === name
 
     return {
-      lazySrc,
+      src,
       tags,
       date,
       breakpoint,
