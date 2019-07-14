@@ -30,13 +30,12 @@
 </template>
 
 <script>
-import { value } from 'vue-function-api'
 import config from '../../config'
 
 export default {
   setup() {
     return {
-      config: value(config)
+      config
     }
   }
 }

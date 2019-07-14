@@ -138,9 +138,10 @@ export default {
     // Remove duplicate tags (https://stackoverflow.com/a/9229821)
     const tags = [...new Set(props.illust.tags.map(tag => tag.name))]
 
-    const date = time(props.illust.create_date, navigator).format('lll')
+    const date = time(props.illust.create_date).format('lll')
 
-    const breakpoint = name => context.root.$vuetify.breakpoint.name === name
+    const vuetify = context.root.$vuetify
+    const breakpoint = name => vuetify.breakpoint.name === name
 
     return {
       lazySrc,
