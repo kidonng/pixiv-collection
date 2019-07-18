@@ -2,10 +2,6 @@
   "name": "pixiv-collection",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
-  },
   "dependencies": {
     "dayjs": "^1.8.15",
     "ga-lite": "^2.0.1",

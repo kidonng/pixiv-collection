@@ -85,7 +85,7 @@ export default {
           illust.id = [new URL(illust.id).searchParams.get('illust_id')]
 
         try {
-          let res = (await ky('/api/', {
+          let res = (await ky('/api', {
             searchParams: { id: illust.id }
           }).json()).illust
 
