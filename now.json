@@ -4,22 +4,22 @@
     {
       "src": "package.json",
       "use": "@now/static-build",
-      "config": { "distDir": "package/site/dist" }
+      "config": { "distDir": "packages/site/dist" }
     },
-    { "src": "package/api/index.js", "use": "@now/node" }
+    { "src": "packages/api/index.js", "use": "@now/node" }
   ],
   "routes": [
     {
-      "src": "^/api/.*",
-      "dest": "package/api/index.js",
+      "src": "/api",
+      "dest": "packages/api/index.js",
       "headers": { "cache-control": "s-maxage=604800, max-age=0" }
     },
     {
-      "src": "^/(js|css|img)/.*",
+      "src": "/(js|css|img)/.*",
       "headers": { "cache-control": "max-age=31536000, immutable" }
     },
     { "handle": "filesystem" },
-    { "src": ".*", "status": 404, "dest": "404.html" }
+    { "src": ".*", "dest": "/" }
   ],
   "regions": ["sin1"],
   "alias": "pixiv.now.sh"

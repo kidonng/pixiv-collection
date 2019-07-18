@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "serve": "yarn --cwd package/site serve",
-    "build": "yarn --cwd package/site build",
+    "serve": "yarn --cwd packages/site serve",
+    "build": "yarn --cwd packages/site build",
     "now-dev": "yarn serve",
     "now-build": "yarn build"
   },
@@ -13,7 +13,7 @@
     "node": "10.x"
   },
   "workspaces": [
-    "package/*"
+    "packages/*"
   ],
   "prettier": {
     "semi": false,

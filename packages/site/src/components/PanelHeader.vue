@@ -120,7 +120,7 @@ export default {
       y.value = e.clientY
 
       if (!memberInfo.value)
-        memberInfo.value = await ky('/api/', {
+        memberInfo.value = await ky('/api', {
           searchParams: { type: 'member', id: props.member.user.id }
         }).json()
     }
