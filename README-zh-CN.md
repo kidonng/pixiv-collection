@@ -27,7 +27,7 @@
 ## 使用方法
 
 1. API 是为 [Now](https://zeit.co/now) 开发的，如果你没有 ZEIT 帐号，免费[注册](https://zeit.co/signup)一个。
-2. Fork 或 clone 本仓库并设置你的[偏好和收藏](package/site/config.js)：
+2. Fork 或 clone 本仓库并设置你的[偏好和收藏](site/config.js)：
 
 ```js
 export default {
@@ -52,13 +52,13 @@ export default {
 }
 ```
 
-3. 同时设置[页面标题](package/site/public/index.html#L5)和 [Now alias](now.json#L25) (可选)。
+3. 同时设置[页面标题](site/public/index.html#L5)和 [Now alias](now.json#L25) (可选)。
 4. 部署至 Now 然后查看你的精美收藏吧！
 
 ## 开发
 
 - 安装依赖 `yarn` & `yarn add now --dev`
-- 运行 `yarn serve`
+- 运行 `now dev`
 - 构建 `yarn build`
 
 ## 鸣谢

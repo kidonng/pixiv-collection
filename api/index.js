@@ -4,6 +4,7 @@ const probe = require('probe-image-size')
 module.exports = async (req, res) => {
   if (req.query.id)
     try {
+      // Another API: https://pixiv.moe/
       const body = (await got(
         `https://api.imjad.cn/pixiv/v2/${req.url.substring(
           req.url.indexOf('?')
