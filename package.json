@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "serve": "yarn --cwd packages/site serve",
-    "build": "yarn --cwd packages/site build",
+    "serve": "yarn --cwd packages/site vue-cli-service serve",
+    "build": "yarn --cwd packages/site vue-cli-service build",
     "now-dev": "yarn serve",
     "now-build": "yarn build"
   },
