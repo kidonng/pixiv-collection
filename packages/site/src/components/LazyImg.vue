@@ -3,10 +3,7 @@
     <slot />
     <template #placeholder>
       <v-layout fill-height align-center justify-center ma-0>
-        <v-progress-circular
-          indeterminate
-          color="grey lighten-5"
-        ></v-progress-circular>
+        <v-progress-circular indeterminate color="grey lighten-5" />
       </v-layout>
     </template>
   </v-img>

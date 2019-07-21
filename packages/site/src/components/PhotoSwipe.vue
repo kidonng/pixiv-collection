@@ -60,7 +60,7 @@
 
 .theme--light
   .pswp__bg
-    background: #fff
+    background: white
 
   .pswp__counter,
   .pswp__preloader,
