@@ -4,14 +4,13 @@
     {
       "src": "package.json",
       "use": "@now/static-build",
-      "config": { "distDir": "packages/site/dist" }
+      "config": { "distDir": "site/dist" }
     },
-    { "src": "packages/api/index.js", "use": "@now/node" }
+    { "src": "api/index.js", "use": "@now/node" }
   ],
   "routes": [
     {
       "src": "/api",
-      "dest": "packages/api/index.js",
       "headers": { "cache-control": "s-maxage=604800, max-age=0" }
     },
     {

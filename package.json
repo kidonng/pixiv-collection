@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "serve": "yarn --cwd packages/site vue-cli-service serve",
-    "build": "yarn --cwd packages/site vue-cli-service build",
+    "serve": "yarn --cwd site vue-cli-service serve",
+    "build": "yarn --cwd site vue-cli-service build",
     "now-dev": "yarn serve",
     "now-build": "yarn build"
   },
@@ -13,7 +13,8 @@
     "node": "10.x"
   },
   "workspaces": [
-    "packages/*"
+    "api",
+    "site"
   ],
   "prettier": {
     "semi": false,

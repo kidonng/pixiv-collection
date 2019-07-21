@@ -4,7 +4,7 @@ import vuetify from './plugins/vuetify'
 import './plugins/analytics'
 import App from './App'
 
-if (location.pathname !== '/') location.pathname = '/'
+if (location.pathname !== '/') history.replaceState(null, null, '/')
 
 new Vue({
   vuetify,
