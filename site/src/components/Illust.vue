@@ -87,7 +87,7 @@
                   v-for="tag in tags"
                   :key="tag"
                   :title="tag"
-                  class="text-truncate"
+                  class="text-no-wrap"
                 >
                   {{ tag }}
                 </v-chip>
