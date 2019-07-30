@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app>
     <v-toolbar-title>
-      {{ config.title }}
+      {{ title }}
     </v-toolbar-title>
 
     <v-spacer />
@@ -15,12 +15,7 @@
 
       <span>Toggle Dark Theme</span>
     </v-tooltip>
-    <v-tooltip
-      v-for="link in config.links"
-      :key="link.title"
-      bottom
-      attach="#app"
-    >
+    <v-tooltip v-for="link in links" :key="link.title" bottom attach="#app">
       <template #activator="{ on }">
         <v-btn
           v-on="on"
@@ -39,7 +34,7 @@
 </template>
 
 <script>
-import config from '../../config'
+import { title, links } from '../../config'
 
 export default {
   setup(props, context) {
@@ -47,7 +42,8 @@ export default {
     const toggleDarkTheme = () => (vuetify.theme.dark = !vuetify.theme.dark)
 
     return {
-      config,
+      title,
+      links,
       toggleDarkTheme
     }
   }

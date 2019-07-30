@@ -46,7 +46,7 @@ import Illust from './components/Illust'
 import PanelHeader from './components/PanelHeader'
 import PhotoSwipe from './components/PhotoSwipe'
 import gallery from './utils/gallery'
-import config from '../config'
+import { collection } from '../config'
 
 export default {
   components: {
@@ -63,7 +63,7 @@ export default {
         .map(member => member.illusts.length)
         .reduce((sum, current) => sum + current, 0)
 
-      return sum !== config.collection.length
+      return sum !== collection.length
     })
 
     const vuetify = context.root.$vuetify
@@ -78,7 +78,7 @@ export default {
       const searchParams = new URLSearchParams(location.hash.substring(2))
 
       // Process collection
-      config.collection.forEach(async illust => {
+      collection.forEach(async illust => {
         // Covert ID and link
         if (typeof illust !== 'object') illust = { id: illust }
         if (typeof illust.id === 'string')
