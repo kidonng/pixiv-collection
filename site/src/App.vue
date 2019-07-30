@@ -5,7 +5,7 @@
     <v-content :class="{ 'cur-wait': loading }">
       <v-container :px-0="breakpoint('xs')" :fill-height="loading">
         <v-layout v-if="loading" align-content-center justify-center wrap>
-          <v-flex xs12 subtitle-1 text-xs-center>
+          <v-flex xs12 subtitle-1 text-center>
             Loading collection
           </v-flex>
           <v-flex xs6>
