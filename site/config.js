@@ -1,16 +1,4 @@
 const title = "Kid's pixiv collection"
-const links = [
-  {
-    title: 'Homepage',
-    icon: 'mdi-home',
-    href: 'https://kidonng.me/'
-  },
-  {
-    title: 'GitHub',
-    icon: 'mdi-github-circle',
-    href: 'https://github.com/kidonng/pixiv-collection'
-  }
-]
 const googleAnalyticsID = 'UA-140053908-3'
 const collection = [
   // なもり (https://www.pixiv.net/member.php?id=124923)
@@ -86,4 +74,4 @@ const collection = [
   41920790
 ]
 
-export { title, links, googleAnalyticsID, collection }
+export { title, googleAnalyticsID, collection }

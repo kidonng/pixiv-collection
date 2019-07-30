@@ -15,26 +15,26 @@
 
       <span>Toggle Dark Theme</span>
     </v-tooltip>
-    <v-tooltip v-for="link in links" :key="link.title" bottom attach="#app">
+    <v-tooltip bottom attach="#app">
       <template #activator="{ on }">
         <v-btn
           v-on="on"
-          :href="link.href"
+          href="https://github.com/kidonng/pixiv-collection"
           target="_blank"
           rel="noreferrer noopener"
           icon
         >
-          <v-icon>{{ link.icon }}</v-icon>
+          <v-icon>mdi-github-circle</v-icon>
         </v-btn>
       </template>
 
-      <span>{{ link.title }}</span>
+      <span>GitHub</span>
     </v-tooltip>
   </v-app-bar>
 </template>
 
 <script>
-import { title, links } from '../../config'
+import { title } from '../../config'
 
 export default {
   setup(props, context) {
@@ -43,7 +43,6 @@ export default {
 
     return {
       title,
-      links,
       toggleDarkTheme
     }
   }
