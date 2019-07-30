@@ -9,6 +9,8 @@ English | [简体中文](README-zh-CN.md)
 
 </div>
 
+**⚠ WARNING:** This project is undergoing a heavy refactor.
+
 Simple pixiv collection showcase.
 
 | Desktop                      | Mobile                      |
