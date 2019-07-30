@@ -1,10 +1,10 @@
-import config from '../../config'
+import { googleAnalyticsID, title } from '../../config'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default'
 import galite from 'ga-lite'
 
 export default (illust, index, rect) => {
-  if (config.googleAnalyticsID)
+  if (googleAnalyticsID)
     galite('send', {
       hitType: 'event',
       eventCategory: illust.user.name,
@@ -54,12 +54,11 @@ export default (illust, index, rect) => {
   )
   pswp.listen(
     'initialZoomIn',
-    () =>
-      (document.title = `${illust.title} / ${illust.user.name} - ${config.title}`)
+    () => (document.title = `${illust.title} / ${illust.user.name} - ${title}`)
   )
   pswp.listen('destroy', () =>
     // Title in Chrome will revert without the timeout
-    setTimeout(() => (document.title = config.title), 50)
+    setTimeout(() => (document.title = title), 50)
   )
   pswp.init()
 }
