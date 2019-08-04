@@ -12,7 +12,7 @@
     "vuetify": "^2.0.3"
   },
   "devDependencies": {
-    "@vue/cli-service": "^3.9.3",
+    "@vue/cli-service": "^3.10.0",
     "sass": "^1.22.9",
     "sass-loader": "^7.1.0",
     "vue-cli-plugin-vuetify": "^0.6.1",
