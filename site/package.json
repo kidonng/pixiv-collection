@@ -8,7 +8,7 @@
     "ky": "^0.11.2",
     "photoswipe": "^4.1.3",
     "vue": "^2.6.10",
-    "vue-function-api": "^2.0.6",
+    "vue-function-api": "^2.1.1",
     "vuetify": "^2.0.4"
   },
   "devDependencies": {
