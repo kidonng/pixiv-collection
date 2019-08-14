@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { title } from '../../config'
+import { title } from '../config'
 
 export default {
   setup(props, context) {

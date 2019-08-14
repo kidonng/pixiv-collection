@@ -1,4 +1,4 @@
-import { googleAnalyticsID, title } from '../../config'
+import { googleAnalyticsID, title } from '../config'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default'
 import galite from 'ga-lite'

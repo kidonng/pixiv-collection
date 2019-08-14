@@ -1,6 +1,5 @@
 {
   "name": "pixiv-api-wrapper",
-  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "got": "^9.6.0",
