@@ -46,7 +46,7 @@ import Illust from './components/Illust'
 import PanelHeader from './components/PanelHeader'
 import PhotoSwipe from './components/PhotoSwipe'
 import gallery from './utils/gallery'
-import { collection } from '../config'
+import { collection } from './config'
 
 export default {
   components: {

@@ -1,21 +1,32 @@
 {
+  "name": "pixiv-collection",
   "private": true,
   "scripts": {
-    "serve": "yarn --cwd site vue-cli-service serve",
-    "build": "yarn --cwd site vue-cli-service build",
-    "now-dev": "yarn serve",
-    "now-build": "yarn build"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "now-dev": "yarn serve"
+  },
+  "dependencies": {
+    "dayjs": "^1.8.15",
+    "ga-lite": "^2.0.1",
+    "ky": "^0.11.2",
+    "photoswipe": "^4.1.3",
+    "vue": "^2.6.10",
+    "vue-function-api": "^2.1.2",
+    "vuetify": "^2.0.5"
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "@vue/cli-service": "^3.10.0",
+    "prettier": "^1.18.2",
+    "sass": "^1.22.9",
+    "sass-loader": "^7.2.0",
+    "vue-cli-plugin-vuetify": "^0.6.3",
+    "vue-template-compiler": "^2.6.10",
+    "vuetify-loader": "^1.3.0"
   },
   "engines": {
     "node": "10.x"
   },
-  "workspaces": [
-    "api",
-    "site"
-  ],
   "prettier": {
     "semi": false,
     "singleQuote": true
