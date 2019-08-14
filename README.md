@@ -2,14 +2,12 @@
 
 <div align="center">
 
-[![Website](https://img.shields.io/website/https/pixiv.now.sh.svg?style=for-the-badge)](https://pixiv.now.sh/)
-[![GitHub](https://img.shields.io/github/license/kidonng/pixiv-collection.svg?style=for-the-badge)](./LICENSE)
+[![Website status](https://img.shields.io/website/https/pixiv.now.sh.svg?style=for-the-badge)](https://pixiv.now.sh/)
+[![GitHub](https://img.shields.io/github/license/kidonng/pixiv-collection.svg?style=for-the-badge)](LICENSE)
 
 English | [简体中文](README-zh-CN.md)
 
 </div>
-
-**⚠ WARNING:** This project is undergoing a heavy refactor.
 
 Simple pixiv collection showcase.
 
@@ -28,39 +26,39 @@ Simple pixiv collection showcase.
 
 ## Usage
 
-1. The APIs are developed for [Now](https://zeit.co/now) and if you don't have a ZEIT account, [register](https://zeit.co/signup) one for free.
-2. Fork/clone the repo and configure your [preferences and collection](site/config.js):
+1. The API is developed for [Now](https://zeit.co/now) and if you don't have a ZEIT account, [register](https://zeit.co/signup) one for free.
+2. Fork/clone the repo and configure your [preferences and collection](src/config.js):
 
-```js
-export default {
-  // ...
-  collection: [
-    // Illustration ID
-    20959870,
-    {
-      // Or link
-      id:
-        'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=20959870',
-      // Favorite ❤️
-      favorite: true,
-      // Select by page
-      pages: [1, 11],
-      // Exclude selected
-      exclude: true,
-      // Cover
-      cover: 7
-    }
-  ]
-}
-```
+  ```js
+  export default {
+    // ...
+    collection: [
+      // Illustration ID
+      20959870,
+      {
+        // Or link
+        id:
+          'https://www.pixiv.net/member_illust.php?mode=medium&illust_id=20959870',
+        // Favorite ❤️
+        favorite: true,
+        // Select by page
+        pages: [1, 11],
+        // Exclude selected
+        exclude: true,
+        // Cover
+        cover: 7
+      }
+    ]
+  }
+  ```
 
-3. Config [page title](site/public/index.html#L5) and [Now alias](now.json#L25) (optional) as well.
+3. Don't forget to change [page title](public/index.html#L5).
 4. Deploy to Now and check your awesome collection!
 
 ## Development
 
-- Setup `yarn` & `yarn add now --dev`
-- Run `now dev`
+- Install Now CLI `yarn add now --dev`
+- Development `now dev`
 - Build `yarn build`
 
 ## Thanks

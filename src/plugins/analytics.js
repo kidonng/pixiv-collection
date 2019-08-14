@@ -1,5 +1,5 @@
 import galite from 'ga-lite'
-import { googleAnalyticsID } from '../../config'
+import { googleAnalyticsID } from '../config'
 
 if (googleAnalyticsID) {
   galite('create', googleAnalyticsID, 'auto')
