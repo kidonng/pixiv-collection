@@ -6242,10 +6242,10 @@ vue-cli-plugin-vuetify@^0.6.3:
   resolved "https://registry.yarnpkg.com/vue-cli-plugin-vuetify/-/vue-cli-plugin-vuetify-0.6.3.tgz#71d956cdec419f5628d2b44c43bdc1e6ec3356bf"
   integrity sha512-bdbJcNIc8rrXX1KUiA/7H5mbq6hnjics+k0Q9qdWrX9DjXkGDd+kWhbk9pAIfAZgyHkgGxsgMXF4QhpMMYBiFg==
 
-vue-function-api@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/vue-function-api/-/vue-function-api-2.1.2.tgz#ba43d1b379b0a862daeb0dac3a63069eecefa5e6"
-  integrity sha512-JrQIGrfyWta4+8e1JIaQB8gZjhYqs+yOkBMXD+j1248iGu4YrwMVV3x0RRXnsAFmghWrrjkXYzesrJH/+7UXBA==
+vue-function-api@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/vue-function-api/-/vue-function-api-2.2.0.tgz#06aeb76fcbcf27d8591a1f87cee8d3d771d7feed"
+  integrity sha512-Qyg5IIi+1Zj5U3aHQ55K8nB98BwytxDv0HGWPssQFo9M32QDXHIwzgSE+BhUlzyclb1XkPiLubXApja1WQSwSQ==
   dependencies:
     tslib "^1.9.3"
 
