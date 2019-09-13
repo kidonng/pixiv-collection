@@ -11,10 +11,6 @@ English | [简体中文](README-zh-CN.md)
 
 Simple pixiv collection showcase.
 
-| Desktop                      | Mobile                      |
-| ---------------------------- | --------------------------- |
-| ![](screenshots/desktop.png) | ![](screenshots/mobile.png) |
-
 ## Features
 
 - Material Design 2

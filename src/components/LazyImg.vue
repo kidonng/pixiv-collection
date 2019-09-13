@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { value, computed, onMounted } from 'vue-function-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 
 export default {
   props: {
@@ -20,7 +20,7 @@ export default {
     }
   },
   setup(props, context) {
-    const isIntersecting = value(false)
+    const isIntersecting = ref(false)
     const observer = new IntersectionObserver(
       entries => (isIntersecting.value = entries[0].isIntersecting)
     )

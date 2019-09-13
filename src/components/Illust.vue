@@ -55,8 +55,6 @@
                 :href="
                   `https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illust.id}`
                 "
-                target="_blank"
-                rel="noreferrer noopener"
                 icon
               >
                 <v-icon>mdi-open-in-new</v-icon>
@@ -113,7 +111,7 @@ export default {
     }
   },
   components: { LazyImg },
-  setup(props, context) {
+  setup(props, { root }) {
     const src = props.illust.meta_pages.length
       ? props.illust.meta_pages[props.illust.cover || 0].image_urls.thumb
       : props.illust.image_urls.thumb
@@ -123,8 +121,7 @@ export default {
 
     const date = time(props.illust.create_date).format('lll')
 
-    const vuetify = context.root.$vuetify
-    const breakpoint = name => vuetify.breakpoint.name === name
+    const breakpoint = name => root.$vuetify.breakpoint.name === name
 
     return {
       src,

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { value, computed, onMounted } from 'vue-function-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 import ky from 'ky'
 import AppBar from './components/AppBar'
 import Illust from './components/Illust'
@@ -55,8 +55,8 @@ export default {
     PanelHeader,
     PhotoSwipe
   },
-  setup(props, context) {
-    const members = value([])
+  setup(props, { root }) {
+    const members = ref([])
 
     const loading = computed(() => {
       const sum = members.value
@@ -66,7 +66,7 @@ export default {
       return sum !== collection.length
     })
 
-    const vuetify = context.root.$vuetify
+    const vuetify = root.$vuetify
     const breakpoint = name => vuetify.breakpoint.name === name
 
     onMounted(() => {

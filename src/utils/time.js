@@ -1,17 +1,8 @@
 import dayjs from 'dayjs'
-import LocalizedFormat from 'dayjs/plugin/localizedFormat'
-
+import format from 'dayjs/plugin/localizedFormat'
 import zh_CN from 'dayjs/locale/zh-cn'
 
-dayjs.extend(LocalizedFormat)
+dayjs.extend(format)
 
-const languages = {
-  'zh-CN': zh_CN
-}
-
-export default time => {
-  const lang = navigator.languages.find(lang =>
-    Object.keys(languages).includes(lang)
-  )
-  return lang ? dayjs(time).locale(languages[lang]) : dayjs(time)
-}
+export default time =>
+  navigator.language === 'zh-CN' ? dayjs(time).locale(zh_CN) : dayjs(time)

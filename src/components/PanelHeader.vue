@@ -35,12 +35,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action v-if="memberInfo.profile.webpage">
-                <v-btn
-                  :href="memberInfo.profile.webpage"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  icon
-                >
+                <v-btn :href="memberInfo.profile.webpage" icon>
                   <v-icon>mdi-home</v-icon>
                 </v-btn>
               </v-list-item-action>
@@ -49,8 +44,6 @@
                   :href="
                     `https://www.pixiv.net/member.php?id=${memberInfo.user.id}`
                   "
-                  target="_blank"
-                  rel="noreferrer noopener"
                   icon
                 >
                   <v-icon>mdi-open-in-new</v-icon>
@@ -70,11 +63,7 @@
                 <v-icon>mdi-twitter</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <a
-                  :href="memberInfo.profile.twitter_url"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
+                <a :href="memberInfo.profile.twitter_url">
                   @{{ memberInfo.profile.twitter_account }}
                 </a>
               </v-list-item-content>
@@ -95,7 +84,7 @@
 </template>
 
 <script>
-import { value } from 'vue-function-api'
+import { ref } from '@vue/composition-api'
 import ky from 'ky'
 import LazyImg from './LazyImg'
 
@@ -108,11 +97,11 @@ export default {
   },
   components: { LazyImg },
   setup(props) {
-    const menu = value(false)
-    const x = value(null)
-    const y = value(null)
+    const menu = ref(false)
+    const x = ref(null)
+    const y = ref(null)
 
-    const memberInfo = value(null)
+    const memberInfo = ref(null)
 
     const showMemberInfo = async e => {
       menu.value = true
