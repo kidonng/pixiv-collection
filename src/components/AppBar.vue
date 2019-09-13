@@ -20,8 +20,6 @@
         <v-btn
           v-on="on"
           href="https://github.com/kidonng/pixiv-collection"
-          target="_blank"
-          rel="noreferrer noopener"
           icon
         >
           <v-icon>mdi-github-circle</v-icon>
@@ -37,9 +35,9 @@
 import { title } from '../config'
 
 export default {
-  setup(props, context) {
-    const vuetify = context.root.$vuetify
-    const toggleDarkTheme = () => (vuetify.theme.dark = !vuetify.theme.dark)
+  setup(props, { root }) {
+    const theme = root.$vuetify.theme
+    const toggleDarkTheme = () => (theme.dark = !theme.dark)
 
     return {
       title,

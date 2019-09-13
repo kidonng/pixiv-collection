@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import './plugins/function-api'
 import vuetify from './plugins/vuetify'
+import './plugins/composition-api'
 import './plugins/analytics'
 import App from './App'
 
